@@ -1,4 +1,5 @@
 import ProfileApi from "../components/Api/profileApi";
+import { setUserAuthAC } from "./auth-reducer";
 import firebase from "../firebase";
 import "firebase/auth";
 import "firebase/firestore";
@@ -16,6 +17,7 @@ let initialState = {
   profile: null,
   status: "",
 };
+
 
 // export const addPost = (userId) => {
 //   return (dispatch) => {
@@ -120,13 +122,7 @@ export const updatePosts = (userId) => {
     dispatch(getPost(userId))
   }
 }
-export const setUserProfile = (userId) => {
-  return (dispatch) => {
-    ProfileApi.getProfile(userId).then((data) => {
-      dispatch(setProfile(data));
-    });
-  };
-};
+
 export const savePhoto = (file) => {
   return (dispatch) => {
     ProfileApi.savePhoto(file).then((data) => {
@@ -153,13 +149,5 @@ export const updateProfileStatus = (status) => {
   };
 };
 
-export const saveProfile = (formData, userId) => {
-  return (dispatch) => {
-    ProfileApi.saveProfileData(formData).then((data) => {
-      if (data.resultCode === 0) {
-        dispatch(setUserProfile(userId));
-      }
-    });
-  };
-};
+
 export default profileReducer;

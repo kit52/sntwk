@@ -1,31 +1,33 @@
 import React from "react";
 import userPhoto from "../../assets/images/user.png";
 import { NavLink } from "react-router-dom";
-
-let User = ({u, props}) => {
+import s from "./User.module.css";
+let User = ({ u, props }) => {
+  console.log(u);
+  console.log(props);
   return (
-    <div key={u.id}>
+    <div key={u.id} className={s.user}>
       <span>
-        <NavLink to={`/Profile/${u.id}`}>
+        <NavLink to={`/Profile/${u.userId}`}>
           <div>
-            <img src={u.photos.small != null ? u.photos.small : userPhoto} />
+            <img src={u.photoURL} />
           </div>
         </NavLink>
         <div>
           {u.followed ? (
             <button
-              disabled={props.followingInUserId.some((id) => id === u.id)}
+              disabled={props.followingInUserId.some((id) => id === u.userId)}
               onClick={() => {
-                props.unfollowing(u.id);
+                props.unfollowing(u.userId);
               }}
             >
               unfollow
             </button>
           ) : (
             <button
-              disabled={props.followingInUserId.some((id) => id === u.id)}
+              disabled={props.followingInUserId.some((id) => id === u.userId)}
               onClick={() => {
-                props.following(u.id);
+                props.following(u.userId);
               }}
             >
               follow
@@ -34,10 +36,9 @@ let User = ({u, props}) => {
         </div>
       </span>
       <span>
-        <NavLink to={`/Profile/${u.id}`}>
-          <div>{u.name}</div>
-          <div>{"u.loction.city"}</div>
-          <div>{"u.loction.country"}</div>
+        <NavLink to={`/Profile/${u.userId}`}>
+          <div>{u.displayName}</div>
+
         </NavLink>
       </span>
     </div>

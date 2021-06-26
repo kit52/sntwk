@@ -5,7 +5,9 @@ import "firebase/auth";
 import "firebase/firestore";
 
 const SET_USER_DATA = "SET_USER_DATA";
-const SET_CAPTCHA_URL = "SET_CAPTCHA_URL";
+
+const SET_OWNER_PHOTO = "SET_OWNER_PHOTO";
+const SET_OWNER_USER = "SET_OWNER_USER";
 let initialState = {
   login: null,
   name: null,
@@ -15,8 +17,8 @@ let initialState = {
   photoURL: null,
   isAuth: false,
   isAnonymous: true,
-  followingUserId: [],
-  posts: []
+  isOwner: null,
+  photoOwner: null,
 };
 
 const db = firebase.firestore();
@@ -28,10 +30,29 @@ const getData = (dispatch, userId) => {
   })
 }
 export const setUserAuthAC = (data) => {
+
   return { type: SET_USER_DATA, data };
 };
-
-
+export const setIsOwner = (userId) => {
+  return { type: SET_OWNER_USER, userId };
+};
+export const setUserProfile = (users, userId) => {
+  debugger
+  return (dispatch) => {
+    debugger
+    for (let i = 0; i < users.length; i++) {
+      if (users[i].userId === userId) {
+        console.log(i);
+        console.log(users)
+        dispatch(setUserAuthAC(users[i]))
+      }
+    }
+    debugger
+  };
+};
+export const setOwnerPhoto = (photo) => {
+  return { type: SET_OWNER_PHOTO, photo };
+}
 const authReducer = (state = initialState, action) => {
   debugger
   switch (action.type) {
@@ -39,6 +60,16 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         ...action.data,
+      };
+    case SET_OWNER_USER:
+      return {
+        ...state,
+        isOwner: action.userId,
+      };
+    case SET_OWNER_PHOTO:
+      return {
+        ...state,
+        photoOwner: action.photo,
       };
 
     default:
@@ -72,10 +103,12 @@ export const logout = () => {
         lookingForAJobDescription: null,
         aboutMe: null,
         isAnonymous: true,
-        followingUserId: [],
-        posts: []
+        isOwner: null,
+        photoOwner: null
       }
       dispatch(setUserAuthAC(resetObj));
+      dispatch(setIsOwner(null))
+      dispatch(setOwnerPhoto(null))
     })
 
   }
@@ -94,6 +127,8 @@ export const login2 = () => {
         let someId = res.docs.some((item) => item.id == data.uid)
         if (someId) {
           getData(dispatch, data.uid);
+          dispatch(setIsOwner(data.uid));
+          dispatch(setOwnerPhoto(data.photoURL))
         } else {
           let ref = db.collection('users').doc(`${data.uid}`);
           debugger
@@ -110,11 +145,11 @@ export const login2 = () => {
               lookingForAJobDescription: null,
               aboutMe: null,
               isAnonymous: false,
-              followingUserId: [],
-              posts: []
             }
           }).then(() => {
             getData(dispatch, data.uid);
+            dispatch(setIsOwner(data.uid))
+            dispatch(setOwnerPhoto(data.photoURL))
           })
         }
       }))

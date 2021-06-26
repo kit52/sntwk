@@ -27,7 +27,7 @@ const Header = (props) => {
     <header className={s.header}>
       <img
         className={s.header__icon}
-        src={props.photos || "https://e7.pngegg.com/pngimages/593/357/png-clipart-computer-icons-human-resources-human-capital-human-resource-miscellaneous-company.png"}
+        src={props.photoOwner || "https://e7.pngegg.com/pngimages/593/357/png-clipart-computer-icons-human-resources-human-capital-human-resource-miscellaneous-company.png"}
         alt="icon"
       />
       <div>

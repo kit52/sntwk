@@ -1,5 +1,8 @@
 import userApi from "../components/Api/userApi";
 import followApi from "../components/Api/followApi";
+import firebase from "../firebase";
+import "firebase/auth";
+import "firebase/firestore";
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
 const SET_USERS = "SET_USERS";
@@ -11,7 +14,7 @@ let initialState = {
   users: [],
   currentPage: "1",
   totalPages: "20",
-  pageSize: "10",
+  pageSize: "4",
   isFetching: true,
   followingInProgress: false,
   followingInUserId: [],
@@ -47,6 +50,7 @@ export const followingInProgressAC = (followingInProgress, id) => ({
   id: id,
 });
 const usersReducer = (state = initialState, action) => {
+  debugger
   switch (action.type) {
     case FOLLOW:
       return {
@@ -102,16 +106,30 @@ const usersReducer = (state = initialState, action) => {
       return state;
   }
 };
-export const requestUsers = (currentPage, pageSize) => {
+
+export const getAllUsers = () => {
+  debugger
   return (dispatch) => {
     dispatch(toggleFetchingAc(true));
-    userApi.getUsers(currentPage, pageSize).then((data) => {
+    firebase.firestore().collection('users').get().then((res) => {
+      let arr = []; res.docs.map(item => arr.push(item.data().xx));
+      dispatch(setUsersAc(arr))
       dispatch(toggleFetchingAc(false));
-      dispatch(setUsersAc(data.items));
-      dispatch(setTotalPagesAc(data.totalCount));
-    });
-  };
-};
+      console.log(arr);
+
+    })
+  }
+}
+// export const requestUsers = (currentPage, pageSize) => {
+//   return (dispatch) => {
+//     dispatch(toggleFetchingAc(true));
+//     userApi.getUsers(currentPage, pageSize).then((data) => {
+//       dispatch(toggleFetchingAc(false));
+//       dispatch(setUsersAc(data.items));
+//       dispatch(setTotalPagesAc(data.totalCount));
+//     });
+//   };
+// };
 export const following = (userId) => {
   return (dispatch) => {
     dispatch(followingInProgressAC(true, userId));

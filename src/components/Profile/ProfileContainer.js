@@ -4,36 +4,37 @@ import Profile from "./Profile";
 import {
   updatePosts,
   setProfile,
-  setUserProfile,
   getUserProfileStatus,
   updateProfileStatus,
   savePhoto,
-  saveProfile
+
 
 } from "../../redux/profile-reducer";
+import { setUserProfile } from "../../redux/auth-reducer";
 import { updateProfile } from "../../redux/auth-reducer";
 import { withRouter } from "react-router-dom";
 import withAuthRedirect from "../HOC/RedirectContainer";
 import { compose } from "redux";
 
 class ProfileContainer extends React.Component {
-  // refreshProfile() {
-  //   let userId = this.props.match.params.userId;
-  //   if (!userId) {
+  refreshProfile() {
+    let userId = this.props.match.params.userId;
+    if (!userId) {
+      userId = this.props.isOwner;
+      if (!userId) {
+        this.props.history.push("/login");
+      }
+    }
+    this.props.updatePosts(userId)
+    this.props.setUserProfile(this.props.users, userId);
+    console.log("refresh");
+  }
 
-  //     userId = this.props.userId;
-  //     if (!userId) {
-  //       this.props.history.push("/login");
-  //     }
-  //   }
-  // this.props.setUserProfile(userId);
-  //   this.props.getUserProfileStatus(userId);
-  // }
   componentDidMount() {
-    let id = this.props.userId;
     console.log(this.props);
-    // this.refreshProfile();
-    this.props.updatePosts(id)
+    console.log(this.props);
+    this.refreshProfile();
+
   }
   componentDidUpdate(prevProps) {
     if (prevProps.match.params.userId != this.props.match.params.userId) {
@@ -42,7 +43,7 @@ class ProfileContainer extends React.Component {
   }
   render() {
     return (
-      <Profile {...this.props} isOwner={!this.props.match.params.userId} savePhoto={this.props.savePhoto} />
+      <Profile {...this.props} isOwner={this.props.isOwner} savePhoto={this.props.savePhoto} />
     );
   }
 }
@@ -51,7 +52,9 @@ let mapStateToProps = (state) => {
   return {
     profilePage: state.profilePage,
     userId: state.auth.userId,
-    profile: state.auth
+    profile: state.auth,
+    isOwner: state.auth.isOwner,
+    users: state.userPage.users
 
     // props: { ...state.props },
   };
@@ -65,7 +68,7 @@ export default compose(
     getUserProfileStatus,
     updateProfileStatus,
     savePhoto,
-    saveProfile,
+
   }),
   withRouter,
   withAuthRedirect

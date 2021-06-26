@@ -29,7 +29,6 @@ const ProfileInfo = (props) => {
   const classes = useStyles();
   let [editMode, setEditMode] = useState(false);
   let goToEditMode = () => {
-
     setEditMode(true);
   };
   const uploadPhoto = (e) => {
@@ -53,7 +52,7 @@ const ProfileInfo = (props) => {
               <img
                 className={s.profile__photo}
                 src={
-                  props.profile.photos ||
+                  props.profile.photos || props.profile.photoURL ||
                   userPhoto
                 }
               />
@@ -95,7 +94,7 @@ const ProfileInfo = (props) => {
 const ProfileData = ({ props, goToEditMode }) => {
   return (
     <div>
-      {props.isOwner ? (
+      {props.isOwner == props.userId ? (
         <button onClick={goToEditMode}>edit</button>
       ) : null}
       <div>

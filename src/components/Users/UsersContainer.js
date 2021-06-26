@@ -11,6 +11,7 @@ import {
   requestUsers,
   following,
   unfollowing,
+  getAllUsers
 } from "../../redux/user-reducer";
 import {
   getUsers,
@@ -28,17 +29,21 @@ import { compose } from "redux";
 
 let mapStateToProps = (state) => {
   return {
-    users: getUsers(state),
+    users: state.userPage.users,
     currentPage: getCurrentPage(state),
     totalPages: getTotalPages(state),
     pageSize: getPageSize(state),
     isFetching: getIsFetching(state),
     followingInProgress: getFollowingInProgress(state),
     followingInUserId: getFollowingInUserId(state),
+    state: state
   };
 };
 let mapDispatchToProps = (dispatch) => {
   return {
+    getAllUsers: () => {
+      dispatch(getAllUsers())
+    },
     follow: (userId) => {
       dispatch(followAC(userId));
     },
@@ -60,9 +65,9 @@ let mapDispatchToProps = (dispatch) => {
     toggleFollowingInProgress: (followingInProgress, id) => {
       dispatch(followingInProgressAC(followingInProgress, id));
     },
-    requestUsers: (currentPage, pageSize) => {
-      dispatch(requestUsers(currentPage, pageSize));
-    },
+    // requestUsers: (currentPage, pageSize) => {
+    //   dispatch(requestUsers(currentPage, pageSize));
+    // },
     following: (userId) => {
       dispatch(following(userId));
     },
@@ -73,17 +78,19 @@ let mapDispatchToProps = (dispatch) => {
 };
 class UserContainer extends React.Component {
   componentDidMount() {
-    this.props.requestUsers(this.props.currentPage, this.props.pageSize);
+    // this.props.requestUsers(this.props.currentPage, this.props.pageSize);
+    this.props.getAllUsers();
   }
   onPageChanged = (pageNumber) => {
     this.props.setCurrentPage(pageNumber);
-    this.props.requestUsers(pageNumber, this.props.pageSize);
+    // this.props.requestUsers(pageNumber, this.props.pageSize);
   };
   render() {
     return (
       <>
         {this.props.isFetching ? <Preloader /> : null}
         <Users
+          state={this.props.state}
           totalPages={this.props.totalPages}
           pageSize={this.props.pageSize}
           onPageChanged={this.onPageChanged}

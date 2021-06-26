@@ -16,7 +16,7 @@ const MyPosts = (props) => {
   return (
     <div>
       My post
-      <AddNewPostRedux onSubmit={onSubmit} />
+      {props.isOwner == props.userId ? <AddNewPostRedux onSubmit={onSubmit} /> : null}
       {props.posts.length > 0 ? <div>New post</div> : null}
       {postElements}
     </div>

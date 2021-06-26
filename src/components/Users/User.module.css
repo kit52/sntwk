@@ -5,3 +5,11 @@
 .pageNumber{
     cursor: pointer;
 }
+.user{
+    padding-top: 20px;
+    padding-left: 20px;
+
+}
+.users__btn{
+    margin:20px 450px;
+}
