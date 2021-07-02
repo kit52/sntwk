@@ -2,10 +2,12 @@ import React from "react";
 import s from "./DialogItem.module.css";
 import { NavLink } from "react-router-dom";
 const DialogItem = (props) => {
-    return (
-      <div className={s.dialog}>
-        <NavLink to={"/Dialogs/" + props.id}>{props.name}</NavLink>
-      </div>
-    );
-  };
-  export default DialogItem;
+  return (
+    <div className={props.path == `/Dialogs/${props.id}` ? s.dialog + " " + s.selectedItem : s.dialog}>
+      <NavLink to={"/Dialogs/" + props.id}>
+        <div><img src={props.photo} alt="icon" />{props.name}</div>
+      </NavLink>
+    </div>
+  );
+};
+export default DialogItem;

@@ -2,6 +2,7 @@
     display: grid;
     grid-template-columns: 4fr 8fr;
     padding: 20px;
+
 }
 
 .dialogsItems {
@@ -9,9 +10,42 @@
 }
 
 .dialog {
+    display: flex;
     padding: 20px;
+    /* width: 100%; */
+    height: 70vh;
+    border: 1px solid red;
+    overflow-y: auto;
+    flex-direction: column;
 }
 
 .messages {
     padding: 20px;
+}
+.message_rigth{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.message_left{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.message__avatar{
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    margin-right: 5px;
+}
+.messageName{
+    font-size: 12px;
+}
+.message__item{
+    display: flex;
+}
+.message__text{
+
+    margin-right: 20px;
+    margin-left: 20px;
 }

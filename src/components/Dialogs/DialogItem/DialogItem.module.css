@@ -15,3 +15,6 @@
 .messages {
     padding: 20px;
 }
+.selectedItem{
+    border: 2px solid rgb(156, 156, 112);
+}

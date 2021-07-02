@@ -4,7 +4,6 @@ import User from "./User";
 import Pagination from "../common/Paginations/Pagination";
 
 let Users = (props) => {
-  console.log(props);
   let [loadUsers, setEditMode] = useState(3);
   const loadAlsoUsers = () => {
     setEditMode(loadUsers + 4);

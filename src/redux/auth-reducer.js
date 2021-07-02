@@ -121,7 +121,7 @@ export const login2 = () => {
     provider.addScope('profile');
     provider.addScope('email');
     firebase.auth().signInWithPopup(provider).then((result) => {
-
+      console.log(result);
       let data = result.user;
       db.collection('users').get().then((res => {
         let someId = res.docs.some((item) => item.id == data.uid)

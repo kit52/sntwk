@@ -11,7 +11,10 @@ import {
   requestUsers,
   following,
   unfollowing,
-  getAllUsers
+  getAllUsers,
+  toFollow,
+  getFollowers,
+  toUnFollow
 } from "../../redux/user-reducer";
 import {
   getUsers,
@@ -36,19 +39,23 @@ let mapStateToProps = (state) => {
     isFetching: getIsFetching(state),
     followingInProgress: getFollowingInProgress(state),
     followingInUserId: getFollowingInUserId(state),
-    state: state
+    isOwner: state.auth.isOwner,
+
   };
 };
 let mapDispatchToProps = (dispatch) => {
   return {
+    toFollow: (followers, isOwner, userId) => {
+      dispatch(toFollow(followers, isOwner, userId))
+    },
+    toUnFollow: (followers, isOwner, userId) => {
+      dispatch(toUnFollow(followers, isOwner, userId))
+    },
     getAllUsers: () => {
       dispatch(getAllUsers())
     },
-    follow: (userId) => {
-      dispatch(followAC(userId));
-    },
-    unfollow: (userId) => {
-      dispatch(unfollowAC(userId));
+    getFollowers: (isOwner) => {
+      dispatch(getFollowers(isOwner))
     },
     setUsers: (users) => {
       dispatch(setUsersAc(users));
@@ -68,28 +75,33 @@ let mapDispatchToProps = (dispatch) => {
     // requestUsers: (currentPage, pageSize) => {
     //   dispatch(requestUsers(currentPage, pageSize));
     // },
-    following: (userId) => {
-      dispatch(following(userId));
-    },
-    unfollowing: (userId) => {
-      dispatch(unfollowing(userId));
-    },
+
   };
 };
 class UserContainer extends React.Component {
   componentDidMount() {
-    // this.props.requestUsers(this.props.currentPage, this.props.pageSize);
     this.props.getAllUsers();
+    this.props.getFollowers(this.props.isOwner)
+
   }
-  onPageChanged = (pageNumber) => {
-    this.props.setCurrentPage(pageNumber);
-    // this.props.requestUsers(pageNumber, this.props.pageSize);
-  };
+  // componentDidUpdate(prevProps) {
+  //   if (prevProps.followingInUserId.length != this.props.followingInUserId.length) {
+  //     console.log(prevProps.followingInUserId);
+  //     console.log(this.props.followingInUserId);
+  //     this.props.getFollowers(this.props.isOwner)
+  //   }
+  // }
+  // onPageChanged = (pageNumber) => {
+  //   this.props.setCurrentPage(pageNumber);
+  // };
   render() {
     return (
       <>
         {this.props.isFetching ? <Preloader /> : null}
         <Users
+          isOwner={this.props.isOwner}
+          toFollow={this.props.toFollow}
+          toUnFollow={this.props.toUnFollow}
           state={this.props.state}
           totalPages={this.props.totalPages}
           pageSize={this.props.pageSize}

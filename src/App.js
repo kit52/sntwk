@@ -25,7 +25,7 @@ class App extends React.Component {
     // if (!this.props.initialized) return <Preloader />;
 
     return (
-      <BrowserRouter>
+      <HashRouter>
         <div className="app-wrapper">
           <HeaderContainer />
           <Nav />
@@ -49,7 +49,7 @@ class App extends React.Component {
 
           </div>
         </div>
-      </BrowserRouter>
+      </HashRouter>
     );
   }
 }

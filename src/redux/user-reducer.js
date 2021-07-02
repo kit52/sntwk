@@ -10,6 +10,7 @@ const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
 const SET_TOTAL_COUNT = "SET_TOTAL_COUNT";
 const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
 const TOGGLE_FOLLOWING = "TOGGLE_FOLLOWING";
+const SET_FOLLOWERS = "SET_FOLLOWERS";
 let initialState = {
   users: [],
   currentPage: "1",
@@ -44,34 +45,21 @@ export const setTotalPagesAc = (totalPages) => ({
   type: SET_TOTAL_COUNT,
   totalPages,
 });
-export const followingInProgressAC = (followingInProgress, id) => ({
+export const followingInProgressAC = (followingInProgress) => ({
   type: TOGGLE_FOLLOWING,
   followingInProgress: followingInProgress,
-  id: id,
+});
+export const setFollowersAC = (arr) => ({
+  type: SET_FOLLOWERS,
+  arr
 });
 const usersReducer = (state = initialState, action) => {
   debugger
   switch (action.type) {
-    case FOLLOW:
+    case SET_FOLLOWERS:
       return {
         ...state,
-        users: [...state.users].map((u) => {
-          if (u.id === action.userId) {
-            return { ...u, followed: true };
-          }
-          return u;
-        }),
-      };
-
-    case UNFOLLOW:
-      return {
-        ...state,
-        users: [...state.users].map((u) => {
-          if (u.id === action.userId) {
-            return { ...u, followed: false };
-          }
-          return u;
-        }),
+        followingInUserId: [...action.arr]
       };
     case SET_USERS:
       return {
@@ -98,9 +86,6 @@ const usersReducer = (state = initialState, action) => {
       return {
         ...state,
         followingInProgress: action.followingInProgress,
-        followingInUserId: action.followingInProgress
-          ? [...state.followingInUserId, action.id]
-          : [...state.followingInUserId.filter((id) => id != action.id)],
       };
     default:
       return state;
@@ -115,9 +100,55 @@ export const getAllUsers = () => {
       let arr = []; res.docs.map(item => arr.push(item.data().xx));
       dispatch(setUsersAc(arr))
       dispatch(toggleFetchingAc(false));
-      console.log(arr);
-
     })
+  }
+}
+export const getFollowers = (isOwner) => {
+  debugger
+  return (dispatch) => {
+    dispatch(followingInProgressAC(true));
+    let db = firebase.firestore().collection('users').doc(`${isOwner}`).collection('followers').doc('id');
+    db.get().then((docs) => {
+      let objData = docs.data();
+      console.log(docs);
+      dispatch(setFollowersAC(objData.arr))
+      dispatch(followingInProgressAC(false));
+      console.log(docs);
+    })
+  }
+}
+export const toFollow = (followers, isOwner, userId) => {
+  return (dispatch) => {
+    dispatch(followingInProgressAC(true));
+    let db = firebase.firestore().collection('users').doc(`${isOwner}/`).collection('followers').doc('id');
+    let arrFollowers = [...followers];
+    arrFollowers.push(userId);
+    console.log(arrFollowers);
+    db.set({ arr: [...arrFollowers] })
+      .then(() => {
+        db.get().then((docs) => {
+          let objData = docs.data();
+          console.log(objData);
+        })
+        dispatch(followingInProgressAC(false));
+      }).catch(e => console.log(e))
+  }
+}
+export const toUnFollow = (followers, isOwner, userId) => {
+  return (dispatch) => {
+    dispatch(followingInProgressAC(true));
+    let db = firebase.firestore().collection('users').doc(`${isOwner}/`).collection('followers').doc('id');
+    let arrFollowers = followers.filter(item => item != userId);
+
+    console.log(arrFollowers);
+    db.set({ arr: [...arrFollowers] })
+      .then(() => {
+        db.get().then((docs) => {
+          let objData = docs.data();
+          console.log(objData);
+        })
+        dispatch(followingInProgressAC(false));
+      }).catch(e => console.log(e))
   }
 }
 // export const requestUsers = (currentPage, pageSize) => {
@@ -130,26 +161,26 @@ export const getAllUsers = () => {
 //     });
 //   };
 // };
-export const following = (userId) => {
-  return (dispatch) => {
-    dispatch(followingInProgressAC(true, userId));
-    followApi.doFollow(userId).then((data) => {
-      if (data.resultCode === 0) {
-        dispatch(followAC(userId));
-        dispatch(followingInProgressAC(false, userId));
-      }
-    });
-  };
-};
-export const unfollowing = (userId) => {
-  return (dispatch) => {
-    dispatch(followingInProgressAC(true, userId));
-    followApi.doUnfollow(userId).then((data) => {
-      if (data.resultCode === 0) {
-        dispatch(unfollowAC(userId));
-        dispatch(followingInProgressAC(false, userId));
-      }
-    });
-  };
-};
+// export const following = (userId) => {
+//   return (dispatch) => {
+//     dispatch(followingInProgressAC(true, userId));
+//     followApi.doFollow(userId).then((data) => {
+//       if (data.resultCode === 0) {
+//         dispatch(followAC(userId));
+//         dispatch(followingInProgressAC(false, userId));
+//       }
+//     });
+//   };
+// };
+// export const unfollowing = (userId) => {
+//   return (dispatch) => {
+//     dispatch(followingInProgressAC(true, userId));
+//     followApi.doUnfollow(userId).then((data) => {
+//       if (data.resultCode === 0) {
+//         dispatch(unfollowAC(userId));
+//         dispatch(followingInProgressAC(false, userId));
+//       }
+//     });
+//   };
+// };
 export default usersReducer;
