@@ -20,9 +20,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = (props) => {
 
-
-  const classes = useStyles();
   console.log(props);
+  const classes = useStyles();
+
   return (
     <header className={s.header}>
       <img
@@ -41,19 +41,7 @@ const Header = (props) => {
           >
             Logout
           </Button>
-        ) : (
-          <NavLink to="/Login">
-            <Button
-              size="small"
-              variant="contained"
-              color="secondary"
-              className={classes.margin}
-
-            >
-              Login
-            </Button>
-          </NavLink>
-        )}
+        ) : null}
       </div>
     </header>
   );

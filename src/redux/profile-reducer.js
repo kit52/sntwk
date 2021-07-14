@@ -1,8 +1,8 @@
 import ProfileApi from "../components/Api/profileApi";
 import { setUserAuthAC } from "./auth-reducer";
 import firebase from "../firebase";
-import "firebase/auth";
-import "firebase/firestore";
+import 'firebase/auth';
+import 'firebase/storage';
 const ADD_POST = "ADD-POST";
 const SET_PROFILE = "SET_PROFILE";
 const SET_PROFILE_STATUS = "SET_PROFILE_STATUS";
@@ -17,16 +17,6 @@ let initialState = {
   profile: null,
   status: "",
 };
-
-
-// export const addPost = (userId) => {
-//   return (dispatch) => {
-//     db.collection('users').doc(`${userId}/posts`).set(
-//       "traalala"
-//     )
-//   }
-// }
-
 
 
 export const addPostAC = (arr) => ({
@@ -63,12 +53,6 @@ const profileReducer = (state = initialState, action) => {
       };
     }
     case ADD_POST: {
-      // let newPost = {
-      //   id: action.data.seconds,
-      //   likeCount: 0,
-      //   message: action.text,
-      // };
-
       return {
         ...state,
         postData: [...action.arr],
@@ -123,15 +107,8 @@ export const updatePosts = (userId) => {
   }
 }
 
-export const savePhoto = (file) => {
-  return (dispatch) => {
-    ProfileApi.savePhoto(file).then((data) => {
-      if (data.resultCode === 0) {
-        dispatch(setPhoto(data.data.photos));
-      }
-    });
-  };
-};
+
+
 export const getUserProfileStatus = (userId) => {
   return (dispatch) => {
     ProfileApi.getProfileStatus(userId).then((data) => {

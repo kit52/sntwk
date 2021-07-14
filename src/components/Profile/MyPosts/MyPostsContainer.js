@@ -7,8 +7,9 @@ const mapStateToProps = (state) => {
   return {
     newPostText: state.profilePage.newPostText,
     posts: state.profilePage.postData,
-    userId: state.auth.userId,
-    isOwner: state.auth.isOwner
+    userId: state.auth.profile.userId,
+    isOwner: state.auth.isOwner,
+    avatar: state.auth.profile.photoURL
   };
 };
 

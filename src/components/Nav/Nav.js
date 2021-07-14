@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import s from "./Nav.module.css";
-import SideBar from "./SideBar/SideBar";
+// import SideBar from "./SideBar/SideBar";
 const Nav = () => {
   return (
     <nav className={s.nav}>
@@ -21,7 +21,7 @@ const Nav = () => {
             Users
           </NavLink>
         </div>
-        <div className={s.item}>
+        {/* <div className={s.item}>
           <a href="#">News</a>
         </div>
         <div className={s.item}>
@@ -29,8 +29,8 @@ const Nav = () => {
         </div>
         <div className={s.item}>
           <a href="#">Settings</a>
-        </div>
-        <SideBar />
+        </div> */}
+
       </div>
     </nav>
   );

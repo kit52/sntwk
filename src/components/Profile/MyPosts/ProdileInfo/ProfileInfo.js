@@ -26,14 +26,16 @@ const useStyles = makeStyles((theme) => ({
 
 
 const ProfileInfo = (props) => {
+  console.log(props);
   const classes = useStyles();
   let [editMode, setEditMode] = useState(false);
   let goToEditMode = () => {
     setEditMode(true);
   };
   const uploadPhoto = (e) => {
+    let userId = props.userId;
     if (e.target.files.length) {
-      props.savePhoto(e.target.files[0]);
+      props.savePhoto(props.profile, userId, e.target.files[0]);
     }
   };
   let onSubmit = (data) => {
@@ -52,12 +54,12 @@ const ProfileInfo = (props) => {
               <img
                 className={s.profile__photo}
                 src={
-                  props.profile.photos || props.profile.photoURL ||
+                  props.profile.photoURL ||
                   userPhoto
                 }
               />
             </div>
-            {props.isOwner ? (
+            {props.isOwner == props.userId ? (
               <div className={classes.root}>
                 <input
                   accept="image/*"
@@ -71,13 +73,6 @@ const ProfileInfo = (props) => {
                   <Button variant="contained" style={{ color: green[500] }} component="span">
                     Upload
                   </Button>
-                </label>
-                <input accept="image/*" className={classes.input}
-                  id="icon-button-file" onChange={uploadPhoto} type="file" />
-                <label htmlFor="icon-button-file">
-                  <IconButton style={{ color: green[500] }} aria-label="upload picture" component="span">
-                    <AddAPhotoIcon />
-                  </IconButton>
                 </label>
               </div>
             ) : null}

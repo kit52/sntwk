@@ -13,3 +13,9 @@
 .users__btn{
     margin:20px 450px;
 }
+.avatar{
+    height: 100px;
+    border-radius: 50px;
+    width: 100px;
+    object-fit: cover;
+}

@@ -8,7 +8,7 @@ let User = ({ u, props }) => {
       <span>
         <NavLink to={`/Profile/${u.userId}`}>
           <div>
-            <img src={u.photoURL} />
+            <img className={s.avatar} src={u.photoURL} alt="avatar" />
           </div>
         </NavLink>
         <div>

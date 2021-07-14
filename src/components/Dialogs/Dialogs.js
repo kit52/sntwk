@@ -43,6 +43,7 @@ const Dialogs = ({ props }) => {
       <div>{props.location.pathname === "/Dialogs" ?
         <div>Выбирите диалог</div> :
         <MessageContainer
+          path={props.location.pathname}
           interlocutor={interlocutor} />}
       </div>
     </div>

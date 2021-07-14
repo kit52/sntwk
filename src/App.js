@@ -45,10 +45,11 @@ class App extends React.Component {
               component={() => <ProfileContainer />}
             />
             <Route path="/Users" render={() => <UsersContainer />} />
-            <Route path="/Login" render={() => <Login />} />
+
 
           </div>
         </div>
+        <Route path="/Login" render={() => <Login />} />
       </HashRouter>
     );
   }

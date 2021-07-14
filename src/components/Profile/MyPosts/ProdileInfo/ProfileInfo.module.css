@@ -7,7 +7,10 @@
 .profile__photo{
   border-radius: 30px;
   margin-right: 100px;
-  min-width: 200px;
+  max-width:300px ;
+  object-fit: cover;
+
+  height: 300px;
 }
 .profile__content{
   display: flex;

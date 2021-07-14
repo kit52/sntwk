@@ -99,6 +99,7 @@ class UserContainer extends React.Component {
       <>
         {this.props.isFetching ? <Preloader /> : null}
         <Users
+          getFollowers={this.props.getFollowers}
           isOwner={this.props.isOwner}
           toFollow={this.props.toFollow}
           toUnFollow={this.props.toUnFollow}

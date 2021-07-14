@@ -3,8 +3,7 @@ import followApi from "../components/Api/followApi";
 import firebase from "../firebase";
 import "firebase/auth";
 import "firebase/firestore";
-const FOLLOW = "FOLLOW";
-const UNFOLLOW = "UNFOLLOW";
+
 const SET_USERS = "SET_USERS";
 const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
 const SET_TOTAL_COUNT = "SET_TOTAL_COUNT";
@@ -16,22 +15,11 @@ let initialState = {
   currentPage: "1",
   totalPages: "20",
   pageSize: "4",
-  isFetching: true,
+  isFetching: false,
   followingInProgress: false,
   followingInUserId: [],
 };
-export const followAC = (userId) => {
-  return {
-    type: FOLLOW,
-    userId: userId,
-  };
-};
-export const unfollowAC = (userId) => {
-  return {
-    type: UNFOLLOW,
-    userId: userId,
-  };
-};
+
 export const setUsersAc = (users) => ({ type: SET_USERS, users });
 export const setCurrentPageAc = (currentPage) => ({
   type: SET_CURRENT_PAGE,
@@ -104,18 +92,22 @@ export const getAllUsers = () => {
   }
 }
 export const getFollowers = (isOwner) => {
-  debugger
   return (dispatch) => {
-    dispatch(followingInProgressAC(true));
-    let db = firebase.firestore().collection('users').doc(`${isOwner}`).collection('followers').doc('id');
-    db.get().then((docs) => {
+    getFollowersData(isOwner, dispatch)
+  }
+}
+export const getFollowersData = (isOwner, dispatch) => {
+  dispatch(followingInProgressAC(true));
+  let db = firebase.firestore().collection('users').doc(`${isOwner}`).collection('followers').doc('id');
+  db.get().then((docs) => {
+    if (docs.exists) {
       let objData = docs.data();
-      console.log(docs);
       dispatch(setFollowersAC(objData.arr))
       dispatch(followingInProgressAC(false));
-      console.log(docs);
-    })
-  }
+    } else {
+      dispatch(followingInProgressAC(false));
+    }
+  })
 }
 export const toFollow = (followers, isOwner, userId) => {
   return (dispatch) => {
@@ -126,11 +118,8 @@ export const toFollow = (followers, isOwner, userId) => {
     console.log(arrFollowers);
     db.set({ arr: [...arrFollowers] })
       .then(() => {
-        db.get().then((docs) => {
-          let objData = docs.data();
-          console.log(objData);
-        })
-        dispatch(followingInProgressAC(false));
+        console.log("then to follow");
+        getFollowersData(isOwner, dispatch);
       }).catch(e => console.log(e))
   }
 }
@@ -143,44 +132,9 @@ export const toUnFollow = (followers, isOwner, userId) => {
     console.log(arrFollowers);
     db.set({ arr: [...arrFollowers] })
       .then(() => {
-        db.get().then((docs) => {
-          let objData = docs.data();
-          console.log(objData);
-        })
-        dispatch(followingInProgressAC(false));
+        getFollowersData(isOwner, dispatch);
       }).catch(e => console.log(e))
   }
 }
-// export const requestUsers = (currentPage, pageSize) => {
-//   return (dispatch) => {
-//     dispatch(toggleFetchingAc(true));
-//     userApi.getUsers(currentPage, pageSize).then((data) => {
-//       dispatch(toggleFetchingAc(false));
-//       dispatch(setUsersAc(data.items));
-//       dispatch(setTotalPagesAc(data.totalCount));
-//     });
-//   };
-// };
-// export const following = (userId) => {
-//   return (dispatch) => {
-//     dispatch(followingInProgressAC(true, userId));
-//     followApi.doFollow(userId).then((data) => {
-//       if (data.resultCode === 0) {
-//         dispatch(followAC(userId));
-//         dispatch(followingInProgressAC(false, userId));
-//       }
-//     });
-//   };
-// };
-// export const unfollowing = (userId) => {
-//   return (dispatch) => {
-//     dispatch(followingInProgressAC(true, userId));
-//     followApi.doUnfollow(userId).then((data) => {
-//       if (data.resultCode === 0) {
-//         dispatch(unfollowAC(userId));
-//         dispatch(followingInProgressAC(false, userId));
-//       }
-//     });
-//   };
-// };
+
 export default usersReducer;

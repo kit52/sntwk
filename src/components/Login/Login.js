@@ -25,16 +25,20 @@ const Login = (props) => {
   }
   return (
     <div className={s.login}>
-
-      <Button
-        onClick={props.login2}
-        size="verybig"
-        variant="contained"
-        style={{ color: green[700] }}
-        className={classes.margin}
-      >
-        Login with google
-      </Button>
+      <div className={s.login__container}>
+        <div>
+          <h1>Для использования сервиса вам необходимо авторизоваться</h1>
+        </div>
+        <Button
+          onClick={props.login2}
+          size="large"
+          variant="contained"
+          style={{ color: green[700] }}
+          className={classes.margin}
+        >
+          Login with google
+        </Button>
+      </div>
     </div>
   );
 };

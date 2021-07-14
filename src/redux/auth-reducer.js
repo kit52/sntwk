@@ -1,21 +1,23 @@
 import { stopSubmit } from "redux-form";
 import authApi from "../components/Api/authApi";
 import firebase from "../firebase";
-import "firebase/auth";
-import "firebase/firestore";
+
 
 const SET_USER_DATA = "SET_USER_DATA";
-
+const SET_IS_ANONYMOUS = "SET_IS_ANONYMOUS";
 const SET_OWNER_PHOTO = "SET_OWNER_PHOTO";
 const SET_OWNER_USER = "SET_OWNER_USER";
 let initialState = {
-  login: null,
-  name: null,
-  displayName: "user",
-  email: null,
-  userId: null,
-  photoURL: null,
-  isAuth: false,
+  profile: {
+    login: null,
+    name: null,
+    displayName: "user",
+    email: null,
+    userId: null,
+    photoURL: null,
+    isAuth: false,
+
+  },
   isAnonymous: true,
   isOwner: null,
   photoOwner: null,
@@ -27,10 +29,10 @@ const getData = (dispatch, userId) => {
   db.collection('users').doc(userId).get().then((docs) => {
     let objData = docs.data();
     dispatch(setUserAuthAC(objData.xx));
+    dispatch(setOwnerPhoto(objData.xx.photoURL))
   })
 }
 export const setUserAuthAC = (data) => {
-
   return { type: SET_USER_DATA, data };
 };
 export const setIsOwner = (userId) => {
@@ -39,11 +41,8 @@ export const setIsOwner = (userId) => {
 export const setUserProfile = (users, userId) => {
   debugger
   return (dispatch) => {
-    debugger
     for (let i = 0; i < users.length; i++) {
       if (users[i].userId === userId) {
-        console.log(i);
-        console.log(users)
         dispatch(setUserAuthAC(users[i]))
       }
     }
@@ -53,13 +52,20 @@ export const setUserProfile = (users, userId) => {
 export const setOwnerPhoto = (photo) => {
   return { type: SET_OWNER_PHOTO, photo };
 }
+export const isAnonymous = (bool) => {
+  return { type: SET_IS_ANONYMOUS, bool };
+}
 const authReducer = (state = initialState, action) => {
-  debugger
   switch (action.type) {
     case SET_USER_DATA:
       return {
         ...state,
-        ...action.data,
+        profile: { ...action.data },
+      };
+    case SET_IS_ANONYMOUS:
+      return {
+        ...state,
+        isAnonymous: action.bool,
       };
     case SET_OWNER_USER:
       return {
@@ -87,28 +93,48 @@ export const updateProfile = (data, userId) => {
   }
 }
 
+export const savePhoto = (data, userId, file) => {
+  let storage = firebase.storage()
+  console.log(storage);
+  return (dispatch) => {
+    const filePath = firebase.auth().currentUser.uid + '/' + "x";
+    return firebase.storage().ref(filePath).put(file).then(function (fileSnapshot) {
+      return fileSnapshot.ref.getDownloadURL().then((url) => {
+        db.collection('users').doc(userId).update({ xx: { ...data, photoURL: url } }).then(() => {
+          getData(dispatch, userId);
+        })
+        console.log(url);
+      });
+    }).catch(function (error) {
+      console.error('There was an error uploading a file to Cloud Storage:', error);
+    });
+  };
+};
+
 // LOGIN & logout
 export const logout = () => {
   return (dispatch) => {
     firebase.auth().signOut().then(() => {
       let resetObj = {
-        displayName: "user",
-        name: null,
-        email: null,
-        userId: null,
-        photoURL: null,
-        bigPhoto: null,
-        status: null,
-        lookingForAJob: false,
-        lookingForAJobDescription: null,
-        aboutMe: null,
-        isAnonymous: true,
+        profile: {
+          displayName: "user",
+          name: null,
+          email: null,
+          userId: null,
+          photoURL: null,
+          status: null,
+          lookingForAJob: false,
+          lookingForAJobDescription: null,
+          aboutMe: null,
+        },
+        photoOwner: null,
         isOwner: null,
-        photoOwner: null
       }
+
       dispatch(setUserAuthAC(resetObj));
       dispatch(setIsOwner(null))
       dispatch(setOwnerPhoto(null))
+      dispatch(isAnonymous(true))
     })
 
   }
@@ -121,14 +147,15 @@ export const login2 = () => {
     provider.addScope('profile');
     provider.addScope('email');
     firebase.auth().signInWithPopup(provider).then((result) => {
-      console.log(result);
       let data = result.user;
       db.collection('users').get().then((res => {
         let someId = res.docs.some((item) => item.id == data.uid)
+        console.log(data);
         if (someId) {
           getData(dispatch, data.uid);
           dispatch(setIsOwner(data.uid));
-          dispatch(setOwnerPhoto(data.photoURL))
+
+          dispatch(isAnonymous(false))
         } else {
           let ref = db.collection('users').doc(`${data.uid}`);
           debugger
@@ -139,17 +166,16 @@ export const login2 = () => {
               email: data.email,
               userId: data.uid,
               photoURL: data.photoURL,
-              bigPhoto: null,
               status: null,
               lookingForAJob: false,
               lookingForAJobDescription: null,
               aboutMe: null,
-              isAnonymous: false,
             }
           }).then(() => {
             getData(dispatch, data.uid);
             dispatch(setIsOwner(data.uid))
             dispatch(setOwnerPhoto(data.photoURL))
+            dispatch(isAnonymous(false))
           })
         }
       }))

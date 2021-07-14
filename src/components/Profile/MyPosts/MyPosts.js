@@ -5,19 +5,16 @@ import { required, maxLengthCreator } from "../../utils/validation/FormValid.js"
 
 import Posts from "./Posts/Posts";
 const MyPosts = (props) => {
-  console.log(props);
   let onSubmit = (data) => {
     let newPostText = data.newPostText;
     props.addPost(props.userId, newPostText);
   };
-
-  let postElements = props.posts.map((p) => <Posts message={p.message} />);
-  console.log(props.posts.length);
+  console.log(props);
+  let postElements = props.posts.map((p) => <Posts avatar={props.avatar} message={p.message} />);
   return (
     <div>
       My post
       {props.isOwner == props.userId ? <AddNewPostRedux onSubmit={onSubmit} /> : null}
-      {props.posts.length > 0 ? <div>New post</div> : null}
       {postElements}
     </div>
   );
