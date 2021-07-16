@@ -9,7 +9,9 @@ const mapStateToProps = (state) => {
     posts: state.profilePage.postData,
     userId: state.auth.profile.userId,
     isOwner: state.auth.isOwner,
-    avatar: state.auth.profile.photoURL
+    avatar: state.auth.profile.photoURL,
+
+
   };
 };
 

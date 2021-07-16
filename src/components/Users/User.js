@@ -1,5 +1,4 @@
 import React from "react";
-import userPhoto from "../../assets/images/user.png";
 import { NavLink } from "react-router-dom";
 import s from "./User.module.css";
 let User = ({ u, props }) => {

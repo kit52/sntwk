@@ -43,7 +43,7 @@ class ProfileContainer extends React.Component {
   }
   render() {
     return (
-      <Profile  {...this.props} isOwner={this.props.isOwner} savePhoto={this.props.savePhoto} />
+      <Profile displayName={this.props.displayName} {...this.props} isOwner={this.props.isOwner} savePhoto={this.props.savePhoto} />
     );
   }
 }
@@ -56,6 +56,7 @@ let mapStateToProps = (state) => {
     isOwner: state.auth.isOwner,
     users: state.userPage.users,
     state: state,
+    displayName: state.auth.profile.displayName
     // props: { ...state.props },
   };
 };

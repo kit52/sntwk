@@ -1,24 +1,13 @@
 import React from "react";
-import { Field, reduxForm } from "redux-form";
-import { Input } from "../common/FormControl/FormControl";
 import { login2 } from "../../redux/auth-reducer";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
 import s from "./Login.module.css";
-import style from "../common/FormControl/FormControl.module.css";
-import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import { green } from '@material-ui/core/colors';
-const useStyles = makeStyles((theme) => ({
-  margin: {
-    margin: theme.spacing(1),
-  },
-  extendedIcon: {
-    marginRight: theme.spacing(1),
-  },
-}));
+import Button from "../btn/Button";
+
+
+
 const Login = (props) => {
-  const classes = useStyles();
 
   if (!props.isAnonymous) {
     return <Redirect to="/Profile" />;
@@ -29,15 +18,7 @@ const Login = (props) => {
         <div>
           <h1>Для использования сервиса вам необходимо авторизоваться</h1>
         </div>
-        <Button
-          onClick={props.login2}
-          size="large"
-          variant="contained"
-          style={{ color: green[700] }}
-          className={classes.margin}
-        >
-          Login with google
-        </Button>
+        <Button text="Войти через Google" func={props.login2} class="login_btn" />
       </div>
     </div>
   );

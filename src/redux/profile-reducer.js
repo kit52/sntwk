@@ -1,5 +1,4 @@
 import ProfileApi from "../components/Api/profileApi";
-import { setUserAuthAC } from "./auth-reducer";
 import firebase from "../firebase";
 import 'firebase/auth';
 import 'firebase/storage';
@@ -7,7 +6,7 @@ const ADD_POST = "ADD-POST";
 const SET_PROFILE = "SET_PROFILE";
 const SET_PROFILE_STATUS = "SET_PROFILE_STATUS";
 const SET_PHOTO_SUCSSES = "SET_PHOTO_SUCSSES";
-const db = firebase.firestore();
+
 let initialState = {
   postData: [
     { message: "Hey how are you?" },
@@ -90,9 +89,17 @@ export const getPost = (userId) => {
 }
 export const addPost = (userId, text) => {
   return (dispatch) => {
+    let time = new Date();
+    let mount;
+    if ((time.getMonth() + 1) >= 10) {
+      mount = (time.getMonth() + 1)
+    } else {
+      mount = 0 + `${(time.getMonth() + 1)}`
+    }
     firebase.firestore().collection('users').doc(`${userId}/`).collection('posts').add({
       data: firebase.firestore.FieldValue.serverTimestamp(),
-      message: text
+      message: text,
+      time: `${time.getDate()}.${mount}.${time.getFullYear()}`
     })
       .then(() => {
         dispatch(getPost(userId))

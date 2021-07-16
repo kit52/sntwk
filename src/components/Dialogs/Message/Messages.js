@@ -55,7 +55,6 @@ const Messages = ({ props }) => {
       props.interlocutor.userId,
       props.isOwner,
       props.ownerName,
-      props.ownerPhoto
     );
   };
   let messageElem = [];

@@ -12,9 +12,7 @@ let initialState = {
   messageData: { "12321": { text: "sdsa" } },
   newMessageBody: "",
 };
-// export const addNewMessageCreator = (newMessageBody) => {
-//   return { type: ADD_MESSAGE, newMessageBody };
-// };
+
 export const addMessageData = (data) => {
   return { type: ADD_MESSAGE, data };
 };
@@ -49,35 +47,21 @@ export const loadMessages = (interlocutorId, isOwner) => {
     })
   }
 
-
-  // db3.get().then((res) => {
-  //   let arr = res.docs.map(item => item.data());
-  //   let obj = {
-  //     [interlocutorId]: [...arr]
-  //   }
-  //   dispatch(addMessageData(obj))
-  // }).catch(e => console.log(e))
 }
-// export const getMessage = (interlocutorId, isOwner) => {
-//   return (dispatch) => {
-//     loadMessages(interlocutorId, isOwner, dispatch)
-//   }
-// }
-export const sendMessage = (newMessage, interlocutorId, isOwner, ownerName, onwerPhoto) => {
+
+export const sendMessage = (newMessage, interlocutorId, isOwner, ownerName) => {
   let db = firebase.firestore().collection('users').doc(`${isOwner}/`).collection('messages').doc(`${interlocutorId}`).collection('message');
   let dbInterlocutor = firebase.firestore().collection('users').doc(`${interlocutorId}/`)
     .collection('messages').doc(`${isOwner}`).collection('message');
   return (dispatch) => {
     db.add({
       data: firebase.firestore.FieldValue.serverTimestamp(),
-      photoURL: onwerPhoto,
       name: ownerName,
       message: newMessage,
       userId: isOwner
     }).then(() => {
       dbInterlocutor.add({
         data: firebase.firestore.FieldValue.serverTimestamp(),
-        photoURL: onwerPhoto,
         name: ownerName,
         message: newMessage,
         userId: isOwner
@@ -89,17 +73,5 @@ export const sendMessage = (newMessage, interlocutorId, isOwner, ownerName, onwe
 
   }
 }
-// export const getMessage = (isOwner, interlocutor) => {
-//   debugger
-//   return (dispatch) => {
-//     dispatch(followingInProgressAC(true));
-//     let db = firebase.firestore().collection('users').doc(`${isOwner}/`).collection('followers').doc('id');
-//     db.get().then((docs) => {
-//       let objData = docs.data();
-//       dispatch(setFollowersAC(objData.arr))
-//       dispatch(followingInProgressAC(false));
-//       console.log(docs);
-//     })
-//   }
-// }
+
 export default dialogsReducer;

@@ -1,21 +1,114 @@
 .fon {
   width: 100%;
 }
-.profile{
-  padding: 20px;
+.profile {
 }
-.profile__photo{
-  border-radius: 30px;
-  margin-right: 100px;
-  max-width:300px ;
+.profile__photo {
+  border-radius: 4px;
+  width: 300px;
+  height: 300px;
   object-fit: cover;
-
   height: 300px;
 }
-.profile__content{
-  display: flex;
-
+.profile_photoContainer {
+  margin-right: 32px;
 }
-.contacts{
+.profile__content {
+  display: flex;
+}
+.contacts {
   padding-left: 20px;
+}
+.profile_info {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.item_title {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: rgba(80, 81, 96, 0.65);
+  margin-bottom: 24px;
+}
+.item {
+  margin-bottom: 21px;
+}
+.item_text {
+  padding-left: 16px;
+  display: flex;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  color: #505160;
+  padding-bottom: 48px;
+  border-bottom: 1px solid rgba(104, 130, 158, 0.1);
+  width: 100%;
+}
+.profile_info_container {
+  padding-right: 32px;
+  width: 100%;
+}
+.inputUpload {
+  display: none;
+}
+.editAvatar {
+  padding-top: 16px;
+  font-size: 12px;
+  line-height: 14px;
+  text-align: center;
+  cursor: pointer;
+  color: #68829e;
+  padding-bottom: 16px;
+  border-radius: 4px;
+}
+.editAvatar:hover {
+  color: #aebd38;
+}
+.profileInfo_editBtn {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  line-height: 14px;
+  text-align: center;
+  width: 300px;
+  color: #68829e;
+  border: 1px solid rgba(104, 130, 158, 0.1);
+  padding: 16px;
+  border-radius: 3px;
+}
+.profileInfo_editBtn:hover {
+  border: 1px solid #aebd38;
+  color: #aebd38;
+}
+.profileinfo_icon {
+  margin-right: 8px;
+}
+.profileInfo_editBtn:hover .profileinfo_icon {
+  background-color: #aebd38;
+}
+.profileinfo_icon {
+  width: 13px;
+  height: 14px;
+  background-color: #68829e;
+  mask-image: url("../../../../assets/icon/icons_edit.svg");
+}
+.item input {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid rgba(104, 130, 158, 0.3);
+  width: 100%;
+}
+.item input:active {
+  border: none;
+}
+.itemJob {
+  display: flex;
+  margin-bottom: 0px;
+}
+.itemJob input {
+  width: 24px;
 }

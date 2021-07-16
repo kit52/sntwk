@@ -28,7 +28,7 @@ class App extends React.Component {
       <HashRouter>
         <div className="app-wrapper">
           <HeaderContainer />
-          <Nav />
+
           <div className="app-wrapper-content">
 
             <Redirect from="/" to="/Profile" />

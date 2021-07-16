@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { authMe, setUserAuthAC } from "../../redux/auth-reducer";
+import { setUserAuthAC } from "../../redux/auth-reducer";
 import Header from "./Header";
 
 import { logout } from "../../redux/auth-reducer";
@@ -22,7 +22,7 @@ let mapStateToProps = (state) => {
     photoOwner: state.auth.photoOwner,
     isAnonymous: state.auth.isAnonymous,
     userId: state.auth.userId,
-    state: state
+    OwnerName: state.auth.OwnerName
   };
 };
 

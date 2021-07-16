@@ -1,47 +1,32 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import s from "./Header.module.css";
-import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import { green } from '@material-ui/core/colors';
-
-import firebase from "../../firebase";
-const useStyles = makeStyles((theme) => ({
-  margin: {
-    margin: theme.spacing(1),
-  },
-  extendedIcon: {
-    marginRight: theme.spacing(1),
-  },
-}));
+import { NavLink } from "react-router-dom";
+import Nav from "../Nav/Nav";
 
 
 
 const Header = (props) => {
 
   console.log(props);
-  const classes = useStyles();
 
   return (
     <header className={s.header}>
-      <img
-        className={s.header__icon}
-        src={props.photoOwner || "https://e7.pngegg.com/pngimages/593/357/png-clipart-computer-icons-human-resources-human-capital-human-resource-miscellaneous-company.png"}
-        alt="icon"
-      />
-      <div>
-        {!props.isAnonymous ? (
-          <Button
-            onClick={props.logout}
-            size="small"
-            variant="contained"
-            style={{ color: green[500] }}
-            className={classes.margin}
-          >
-            Logout
-          </Button>
-        ) : null}
+
+      <div className={s.header_container}>
+        <div className={s.header_nav}>
+          <div className={s.header_logo}>MOLOKO</div>
+          <Nav />
+        </div>
+        <NavLink to="/Profile" className={s.header_user}>
+          <img
+            className={s.header__icon}
+            src={props.photoOwner || "https://e7.pngegg.com/pngimages/593/357/png-clipart-computer-icons-human-resources-human-capital-human-resource-miscellaneous-company.png"}
+            alt="icon"
+          />
+          <p className={s.header_userText}>Привет, {props.OwnerName}</p>
+          <div>^</div>
+        </NavLink>
+
       </div>
     </header>
   );

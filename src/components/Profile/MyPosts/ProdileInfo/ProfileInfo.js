@@ -2,32 +2,17 @@
 import React, { useState } from "react";
 import Preloader from "../../../common/Preloader/Preloader";
 import s from "./ProfileInfo.module.css";
-import ProfileStatus from "./ProfileStatus";
 import userPhoto from "../../../../assets/images/user.png";
-import ProfileStatusWithHooks from "./ProfileStatusWIthHooks";
 import ProfileDataReduxForm from "./ProfileFormData";
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
-import { green } from '@material-ui/core/colors';
+import MyPostsContainer from "../MyPostsContainer";
+import editIcon from '../../../../assets/icon/icons_edit.svg'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > *': {
-      margin: theme.spacing(1),
-    },
-  },
-  input: {
-    display: 'none',
-  },
-}));
+
 
 
 const ProfileInfo = (props) => {
   console.log(props);
-  const classes = useStyles();
+
   let [editMode, setEditMode] = useState(false);
   let goToEditMode = () => {
     setEditMode(true);
@@ -40,7 +25,7 @@ const ProfileInfo = (props) => {
   };
   let onSubmit = (data) => {
     let userId = props.userId;
-    props.updateProfile(data, userId)
+    props.updateProfile(props.profile, data, userId)
     setEditMode(false);
   };
   if (!props.profile) {
@@ -50,7 +35,7 @@ const ProfileInfo = (props) => {
       <div className={s.profile}>
         <div className={s.profile__content}>
           <div>
-            <div>
+            <div className={s.profile_photoContainer}>
               <img
                 className={s.profile__photo}
                 src={
@@ -58,24 +43,24 @@ const ProfileInfo = (props) => {
                   userPhoto
                 }
               />
+              {props.isOwner == props.userId ? (
+                <div className={s.profile_info_Upload}>
+                  <input
+                    accept="image/*"
+                    className={s.inputUpload}
+                    id="contained-button-file"
+                    multiple
+                    type="file"
+                    onChange={uploadPhoto}
+                  />
+                  <label htmlFor="contained-button-file">
+                    <div className={s.editAvatar}>Изменить аватар</div>
+                  </label>
+                </div>
+              ) : null}
             </div>
-            {props.isOwner == props.userId ? (
-              <div className={classes.root}>
-                <input
-                  accept="image/*"
-                  className={classes.input}
-                  id="contained-button-file"
-                  multiple
-                  type="file"
-                  onChange={uploadPhoto}
-                />
-                <label htmlFor="contained-button-file">
-                  <Button variant="contained" style={{ color: green[500] }} component="span">
-                    Upload
-                  </Button>
-                </label>
-              </div>
-            ) : null}
+
+
           </div>
           {editMode ? <ProfileDataReduxForm profile={props.profile}
             initialValues={props.profile} onSubmit={onSubmit} /> :
@@ -88,36 +73,36 @@ const ProfileInfo = (props) => {
 
 const ProfileData = ({ props, goToEditMode }) => {
   return (
-    <div>
+    <div className={s.profile_info}>
+
+      <div className={s.profile_info_container}>
+        <div className={s.item}>
+          <div className={s.item_title}>Обо мне: </div>
+          <div className={s.item_text}>{props.profile.aboutMe || "Напиши что-нибудь)"}</div>
+        </div>
+        <div className={s.item}>
+          <div className={s.item_title}> Статус: </div>
+          <div className={s.item_text}>{props.profile.status
+            ? props.profile.status
+            : "Напиши что-нибудь)"}
+          </div>
+        </div>
+        <div className={s.item}>
+          <div className={s.item_title}>Работа: </div>
+          <div className={s.item_text}>{props.profile.lookingForAJob ? "Ищу" : "Не ищу"}</div>
+        </div>
+
+        {props.profile.lookingForAJob ? <div className={s.item}>
+          <div className={s.item_title}> Описание желаемой работы: </div>
+          <div className={s.item_text}>{props.profile.lookingForAJobDescription
+            ? props.profile.lookingForAJobDescription
+            : "Напиши что-нибудь)"}</div>
+        </div> : null}
+        <MyPostsContainer />
+      </div>
       {props.isOwner == props.userId ? (
-        <button onClick={goToEditMode}>edit</button>
+        <div >  <button className={s.profileInfo_editBtn} onClick={goToEditMode}><div className={s.profileinfo_icon}> </div>Редактировать</button></div>
       ) : null}
-      <div>
-        <b>Name: </b> {props.profile.name || props.profile.displayName}
-      </div>
-      <div>
-        <b>About me: </b>
-        {props.profile.aboutMe || "......"}
-      </div>
-      <div>
-        <b> Status: </b>
-        {props.profile.status
-          ? props.profile.status
-          : "........"}
-      </div>
-      <div>
-        <b>lookingForAJob: </b>
-        {props.profile.lookingForAJob ? "Да" : "Нет"}
-      </div>
-
-      <div>
-        <b> lookingForAJobDescription: </b>
-        {props.profile.lookingForAJobDescription
-          ? props.profile.lookingForAJobDescription
-          : "........"}
-      </div>
-
-
     </div>
   );
 };

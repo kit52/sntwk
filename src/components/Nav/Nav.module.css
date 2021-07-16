@@ -1,15 +1,18 @@
-.nav{
-  grid-area: n;
-  background-color:#99c0a7;
-  padding: 10px;
-  color: #c9c9c9;
+.nav {
+  padding-left: 107px;
+  display: flex;
+  justify-content: center;
 }
-.item{
-  padding-bottom: 10px;
+.item:first-child {
+  margin-right: 48px;
 }
-.nav a:hover{
-  color: rgba(245, 233, 0, 14.2);
-}
-.item .active{
-  color: rgb(161, 51, 51);
+.item {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 14px;
+  text-align: center;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #505160;
 }

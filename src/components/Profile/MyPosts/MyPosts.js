@@ -2,6 +2,8 @@ import React from "react";
 import { Field, reduxForm } from "redux-form";
 import { FormControl, Textarea } from "../../common/FormControl/FormControl.js";
 import { required, maxLengthCreator } from "../../utils/validation/FormValid.js"
+import s from "./MyPosts.module.css";
+import Button from "../../btn/Button";
 
 import Posts from "./Posts/Posts";
 const MyPosts = (props) => {
@@ -10,10 +12,10 @@ const MyPosts = (props) => {
     props.addPost(props.userId, newPostText);
   };
   console.log(props);
-  let postElements = props.posts.map((p) => <Posts avatar={props.avatar} message={p.message} />);
+  let postElements = props.posts.map((p) => <Posts time={p.time} avatar={props.avatar} message={p.message} />);
   return (
-    <div>
-      My post
+    <div className={s.myposts}>
+      <div className={s.myposts_title}>Мои посты</div>
       {props.isOwner == props.userId ? <AddNewPostRedux onSubmit={onSubmit} /> : null}
       {postElements}
     </div>
@@ -26,12 +28,12 @@ const AddPostForm = (props) => {
     <form onSubmit={props.handleSubmit}>
       <Field
         component={Textarea}
-        placeholder="enter your text here"
+        placeholder="Введите ваш пост здесь"
         name="newPostText"
         validate={[required, maxLength20]}
       />
-      <div>
-        <button>Add post</button>
+      <div className={s.mypost_btnContainer}>
+        <Button text="Добавить пост" class="mypost_button" />
       </div>
     </form>
   );

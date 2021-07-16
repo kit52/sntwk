@@ -1,11 +1,12 @@
 import React from "react";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import ProfileInfo from "./MyPosts/ProdileInfo/ProfileInfo";
-
+import s from "./Profile.module.css"
 const Profile = (props) => {
   console.log(props);
   return (
     <div>
+      <div className={s.profile_name}>{props.displayName}</div>
       <ProfileInfo
 
         updateProfile={props.updateProfile}
@@ -17,7 +18,7 @@ const Profile = (props) => {
         saveProfile={props.saveProfile}
 
       />
-      <MyPostsContainer />
+
     </div>
   );
 };

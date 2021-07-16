@@ -1,9 +1,40 @@
-.content {
-  grid-area: c;
-  background-color: burlywood;
-  width: 1200px;
+.myposts_title {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: rgba(80, 81, 96, 0.65);
+  margin-bottom: 8px;
+}
+.myposts {
+  width: 100%;
+}
+textarea {
+  padding-top: 16px;
+  padding-left: 16px;
+  width: 100%;
+  background: rgba(104, 130, 158, 0.02);
+  border: 1px solid rgba(104, 130, 158, 0.1);
+  min-height: 136px;
 }
 
-.content img {
+.item_text {
+  padding-left: 16px;
+  display: flex;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  color: #505160;
+  padding-bottom: 48px;
+  border-bottom: 1px solid rgba(104, 130, 158, 0.1);
   width: 100%;
+}
+.mypost_btnContainer {
+  margin-top: 32px;
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: -16px;
 }

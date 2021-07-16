@@ -1,11 +1,10 @@
-import { stopSubmit } from "redux-form";
-import authApi from "../components/Api/authApi";
 import firebase from "../firebase";
 
 
 const SET_USER_DATA = "SET_USER_DATA";
 const SET_IS_ANONYMOUS = "SET_IS_ANONYMOUS";
 const SET_OWNER_PHOTO = "SET_OWNER_PHOTO";
+const SET_OWNER_NAME = "SET_OWNER_NAME";
 const SET_OWNER_USER = "SET_OWNER_USER";
 let initialState = {
   profile: {
@@ -52,6 +51,9 @@ export const setUserProfile = (users, userId) => {
 export const setOwnerPhoto = (photo) => {
   return { type: SET_OWNER_PHOTO, photo };
 }
+export const setOwnerName = (name) => {
+  return { type: SET_OWNER_NAME, name };
+}
 export const isAnonymous = (bool) => {
   return { type: SET_IS_ANONYMOUS, bool };
 }
@@ -62,6 +64,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         profile: { ...action.data },
       };
+
     case SET_IS_ANONYMOUS:
       return {
         ...state,
@@ -77,6 +80,11 @@ const authReducer = (state = initialState, action) => {
         ...state,
         photoOwner: action.photo,
       };
+    case SET_OWNER_NAME:
+      return {
+        ...state,
+        OwnerName: action.name,
+      };
 
     default:
       return state;
@@ -85,9 +93,9 @@ const authReducer = (state = initialState, action) => {
 
 
 
-export const updateProfile = (data, userId) => {
+export const updateProfile = (profile, data, userId) => {
   return (dispatch) => {
-    db.collection('users').doc(userId).update({ xx: { ...data } }).then(() => {
+    db.collection('users').doc(userId).update({ xx: { ...profile, ...data } }).then(() => {
       getData(dispatch, userId);
     }).catch(console.log("getDataError"))
   }
@@ -129,6 +137,7 @@ export const logout = () => {
         },
         photoOwner: null,
         isOwner: null,
+        OwnerName: null
       }
 
       dispatch(setUserAuthAC(resetObj));
@@ -154,6 +163,7 @@ export const login2 = () => {
         if (someId) {
           getData(dispatch, data.uid);
           dispatch(setIsOwner(data.uid));
+          dispatch(setOwnerName(data.displayName))
 
           dispatch(isAnonymous(false))
         } else {
@@ -176,6 +186,7 @@ export const login2 = () => {
             dispatch(setIsOwner(data.uid))
             dispatch(setOwnerPhoto(data.photoURL))
             dispatch(isAnonymous(false))
+            dispatch(setOwnerName(data.displayName))
           })
         }
       }))

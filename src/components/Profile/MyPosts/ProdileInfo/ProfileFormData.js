@@ -3,37 +3,34 @@ import { Field, reduxForm } from "redux-form";
 import style from "../../../common/FormControl/FormControl.module.css";
 import { Input } from "../../../common/FormControl/FormControl";
 import { connect } from "react-redux";
-
+import s from "./ProfileInfo.module.css";
 const ProfileFormData = (props) => {
   console.log(props);
   return (
-    <div>
 
-      <form onSubmit={props.handleSubmit}>
-        <div><button>save</button></div>
-        <div>
-          <b>Name:</b> <Field component={Input} name="name" />
+
+    <form className={s.profile_info} onSubmit={props.handleSubmit}>
+
+      <div className={s.profile_info_container}>
+        <div className={s.item}>
+          <div className={s.item_title}> Обо мне: </div><Field component={Input} type="textarea" name="aboutMe" />
         </div>
-        <div>
-          <b>aboutMe:</b><Field component={Input} type="textarea" name="aboutMe" />
+        <div className={s.item}>
+          <div className={s.item_title}> Статус: </div><Field component={Input} name="status" />
         </div>
-        <div>
-          <b>Status:</b><Field component={Input} name="status" />
-        </div>
-        <div>
-          <b>lookingForAJob:</b>
+        <div className={s.item + " " + s.itemJob}>
+          <div className={s.item_title}> Ищу работу: </div>
           <Field component={Input} type="checkbox" name="lookingForAJob" />
         </div>
-        <div>
-          <b>lookingForAJobDescription:</b><Field component={Input} type="textarea" name="lookingForAJobDescription" />
+        <div className={s.item}>
+          <div className={s.item_title}> Описание желаемой работы: </div><Field component={Input} type="textarea" name="lookingForAJobDescription" />
         </div>
 
+      </div>
+      <div><button className={s.profileInfo_editBtn}>Сохранить</button></div>
 
-        <div>
+    </form>
 
-        </div>
-      </form>
-    </div>
   );
 };
 export const ProfileDataReduxForm = reduxForm({ form: "ProfileFormData" })(
