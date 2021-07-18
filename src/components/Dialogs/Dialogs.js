@@ -8,14 +8,6 @@ import MessageContainer from "./Message/Messages";
 
 const Dialogs = ({ props }) => {
 
-  // useEffect(() => {
-  //   if (props.users.length == 0) {
-  //     props.getAllUsers();
-  //     props.getFollowers(props.isOwner)
-  //   }
-
-  // });
-
 
   let followers = [];
   for (let i of props.followingInUserId) {
@@ -37,14 +29,28 @@ const Dialogs = ({ props }) => {
       return item
   });
   let interlocutor = props.users[interlocutorIndex];
+  console.log(dialogsElements)
   return (
-    <div className={s.dialogs}>
-      <div className={s.dialogsItems}>{dialogsElements}</div>
-      <div>{props.location.pathname === "/Dialogs" ?
-        <div>Выбирите диалог</div> :
-        <MessageContainer
-          path={props.location.pathname}
-          interlocutor={interlocutor} />}
+    <div >
+      {props.location.pathname === "/Dialogs" ?
+        <div className={s.dialogs_title}>
+          {
+            dialogsElements.length > 0 ?
+              "Выбeрите диалог" :
+              "У вас еще нету ни одного друга. Для того чтобы начать диалог, вам необходимо взаимно подписаться на необходимого  человека"
+          }</div> : null}
+      <div className={s.dialogs}>
+        <div className={s.dialogsItems}>
+          {dialogsElements}
+        </div>
+        {props.location.pathname !== "/Dialogs" ?
+          <MessageContainer
+            path={props.location.pathname}
+            interlocutor={interlocutor} />
+          : null
+        }
+
+
       </div>
     </div>
   );

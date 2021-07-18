@@ -67,6 +67,7 @@
 }
 .editAvatar:hover {
   color: #aebd38;
+  background-color: rgba(104, 130, 158, 0.1);
 }
 .profileInfo_editBtn {
   display: flex;

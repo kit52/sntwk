@@ -11,7 +11,7 @@ import {
 } from "../../../redux/dialogs-reducer";
 import { useEffect } from "react";
 import { useRef } from "react";
-
+import Button from "../../btn/Button"
 
 class MessageContainer extends React.Component {
   componentDidMount() {
@@ -74,7 +74,7 @@ const Messages = ({ props }) => {
   } else {
     messageElem.push(<div>
       <h2>Вы еще не общались с {props.interlocutor.displayName}</h2>
-      <p>для начала поздаровайтесь с {props.interlocutor.displayName}</p>
+      <p>Для начала поздаровайтесь с {props.interlocutor.displayName}</p>
     </div>)
   }
 
@@ -98,8 +98,8 @@ const AddNewMessageForm = (props) => {
           name="newMessage"
           validate={[required, maxLength50]}
         />
-        <div>
-          <button>Send message</button>
+        <div className={s.message_btn}>
+          <Button text="Отправить сообщение" />
         </div>
       </form>
     </div>

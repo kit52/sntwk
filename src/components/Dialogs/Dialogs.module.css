@@ -1,14 +1,22 @@
 .dialogs {
-    display: grid;
-    grid-template-columns: 4fr 8fr;
-    padding: 20px;
+  display: grid;
+  grid-template-columns: 4fr 8fr;
 }
 
-
 .dialog {
-    padding: 20px;
+  padding: 20px;
 }
 
 .messages {
-    padding: 20px;
+  padding: 20px;
+}
+.dialogs_title {
+  display: flex;
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 58px;
+  text-align: center;
+  color: #505160;
+  margin-bottom: 32px;
+  justify-content: center;
 }

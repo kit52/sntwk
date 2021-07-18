@@ -19,6 +19,9 @@ a {
 a:hover {
   color: #aebd38;
 }
+.active {
+  color: #aebd38;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

@@ -1,65 +1,70 @@
-*{
-    box-sizing: border-box;
+* {
+  box-sizing: border-box;
 }
 .dialogs {
-    display: grid;
-    grid-template-columns: 4fr 8fr;
-    padding: 20px;
-
+  display: grid;
+  grid-template-columns: 4fr 8fr;
+  padding: 20px;
 }
 
 .dialogsItems {
-    padding: 20px;
+  padding: 20px;
 }
 
 .dialog {
-    display: flex;
-    padding: 20px;
-    /* width: 100%; */
-    height: 70vh;
-    border: 1px solid red;
-    overflow-y: auto;
-    flex-direction: column;
+  display: flex;
+  padding: 20px;
+  /* width: 100%; */
+  height: 65vh;
+  border: 1px solid rgba(104, 130, 158, 0.1);
+  background-color: rgba(104, 130, 158, 0.1);
+  border-radius: 4px;
+  overflow-y: auto;
+  flex-direction: column;
 }
 
 .messages {
-    padding: 20px;
+  padding: 20px;
 }
-.message_rigth{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+.message_rigth {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-bottom: 10px;
 }
-.message_left{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+.message_left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 10px;
 }
-.message__avatar{
-    width: 30px;
-    height: 30px;
-    border-radius: 30px;
-    margin-right: 5px;
+.message__avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  margin-right: 5px;
 }
-.messageName{
-    font-size: 12px;
+.messageName {
+  font-size: 12px;
 }
-.message__item{
-    display: flex;
+.message__item {
+  display: flex;
 }
-.message__text{
-
-    margin-right: 20px;
-    margin-left: 20px;
+.message__text {
+  margin-right: 30px;
+  margin-left: 30px;
 }
-.message__form{
-    width: 100%;
+.message__form {
+  width: 100%;
 }
-.message__form textarea{
-    padding:5px ;
-    margin-top: 20px;
-    width: 100%;
-    max-width: 100%;
-    resize: none;
-
+.message__form textarea {
+  padding: 5px;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 100%;
+  resize: none;
+}
+.message_btn {
+  display: flex;
+  justify-content: flex-end;
 }

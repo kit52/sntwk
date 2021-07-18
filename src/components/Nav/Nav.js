@@ -8,12 +8,12 @@ const Nav = () => {
 
       <div className={s.item}>
         <NavLink to="/Dialogs" activeClassName={s.active}>
-          Message
+          Сообщения
         </NavLink>
       </div>
       <div className={s.item}>
         <NavLink to="/Users" activeClassName={s.active}>
-          Users
+          Пользователи
         </NavLink>
       </div>
       {/* <div className={s.item}>
