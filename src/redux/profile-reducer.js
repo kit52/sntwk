@@ -1,7 +1,8 @@
-import ProfileApi from "../components/Api/profileApi";
+
 import firebase from "../firebase";
 import 'firebase/auth';
 import 'firebase/storage';
+import { reset } from "redux-form";
 const ADD_POST = "ADD-POST";
 const SET_PROFILE = "SET_PROFILE";
 const SET_PROFILE_STATUS = "SET_PROFILE_STATUS";
@@ -37,7 +38,6 @@ export const setProfileStatus = (status) => {
   };
 };
 export const setPhoto = (file) => {
-  debugger;
   return {
     type: SET_PHOTO_SUCSSES,
     file,
@@ -76,12 +76,10 @@ const profileReducer = (state = initialState, action) => {
   }
 };
 export const getPost = (userId) => {
-  debugger
   return (dispatch) => {
     let db = firebase.firestore().collection('users').doc(`${userId}/`).collection('posts').orderBy('data', 'desc')
       .limit(12);
     db.get().then((res) => {
-      debugger
       let arr = res.docs.map(item => item.data());
       dispatch(addPostAC(arr))
     })
@@ -103,35 +101,16 @@ export const addPost = (userId, text) => {
     })
       .then(() => {
         dispatch(getPost(userId))
+        dispatch(reset("addPostForm"))
       })
   }
 }
 export const updatePosts = (userId) => {
-  debugger;
   return (dispatch) => {
-    debugger;
     dispatch(getPost(userId))
   }
 }
 
-
-
-export const getUserProfileStatus = (userId) => {
-  return (dispatch) => {
-    ProfileApi.getProfileStatus(userId).then((data) => {
-      dispatch(setProfileStatus(data));
-    });
-  };
-};
-export const updateProfileStatus = (status) => {
-  return (dispatch) => {
-    ProfileApi.updateStatus(status).then((data) => {
-      if (data.resultCode === 0) {
-        dispatch(setProfileStatus(status));
-      }
-    });
-  };
-};
 
 
 export default profileReducer;

@@ -6,11 +6,6 @@ import Header from "./Header";
 import { logout } from "../../redux/auth-reducer";
 import { login2 } from "../../redux/auth-reducer";
 class HeaderContainer extends React.Component {
-  componentDidMount() {
-    console.log(this.props)
-
-  }
-
   render() {
     return <Header {...this.props} />;
   }

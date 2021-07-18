@@ -1,5 +1,4 @@
-import userApi from "../components/Api/userApi";
-import followApi from "../components/Api/followApi";
+
 import firebase from "../firebase";
 import "firebase/auth";
 import "firebase/firestore";
@@ -42,7 +41,6 @@ export const setFollowersAC = (arr) => ({
   arr
 });
 const usersReducer = (state = initialState, action) => {
-  debugger
   switch (action.type) {
     case SET_FOLLOWERS:
       return {
@@ -70,7 +68,6 @@ const usersReducer = (state = initialState, action) => {
         isFetching: action.isFetching,
       };
     case TOGGLE_FOLLOWING:
-      debugger;
       return {
         ...state,
         followingInProgress: action.followingInProgress,
@@ -81,7 +78,6 @@ const usersReducer = (state = initialState, action) => {
 };
 
 export const getAllUsers = () => {
-  debugger
   return (dispatch) => {
     dispatch(toggleFetchingAc(true));
     firebase.firestore().collection('users').get().then((res) => {
@@ -115,10 +111,8 @@ export const toFollow = (followers, isOwner, userId) => {
     let db = firebase.firestore().collection('users').doc(`${isOwner}/`).collection('followers').doc('id');
     let arrFollowers = [...followers];
     arrFollowers.push(userId);
-    console.log(arrFollowers);
     db.set({ arr: [...arrFollowers] })
       .then(() => {
-        console.log("then to follow");
         getFollowersData(isOwner, dispatch);
       }).catch(e => console.log(e))
   }
@@ -128,8 +122,6 @@ export const toUnFollow = (followers, isOwner, userId) => {
     dispatch(followingInProgressAC(true));
     let db = firebase.firestore().collection('users').doc(`${isOwner}/`).collection('followers').doc('id');
     let arrFollowers = followers.filter(item => item != userId);
-
-    console.log(arrFollowers);
     db.set({ arr: [...arrFollowers] })
       .then(() => {
         getFollowersData(isOwner, dispatch);

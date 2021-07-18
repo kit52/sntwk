@@ -1,14 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import s from "./Dialogs.module.css";
 import DialogItem from "./DialogItem/DialogItem";
-
 import MessageContainer from "./Message/Messages";
-
-
-
 const Dialogs = ({ props }) => {
-
-
   let followers = [];
   for (let i of props.followingInUserId) {
     for (let j of props.users) {
@@ -29,7 +23,6 @@ const Dialogs = ({ props }) => {
       return item
   });
   let interlocutor = props.users[interlocutorIndex];
-  console.log(dialogsElements)
   return (
     <div >
       {props.location.pathname === "/Dialogs" ?

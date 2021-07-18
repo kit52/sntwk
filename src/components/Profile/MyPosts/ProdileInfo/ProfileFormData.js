@@ -5,10 +5,7 @@ import { Input } from "../../../common/FormControl/FormControl";
 import { connect } from "react-redux";
 import s from "./ProfileInfo.module.css";
 const ProfileFormData = (props) => {
-  console.log(props);
   return (
-
-
     <form className={s.profile_info} onSubmit={props.handleSubmit}>
 
       <div className={s.profile_info_container}>
@@ -28,7 +25,6 @@ const ProfileFormData = (props) => {
 
       </div>
       <div><button className={s.profileInfo_editBtn}>Сохранить</button></div>
-
     </form>
 
   );

@@ -38,14 +38,12 @@ export const setIsOwner = (userId) => {
   return { type: SET_OWNER_USER, userId };
 };
 export const setUserProfile = (users, userId) => {
-  debugger
   return (dispatch) => {
     for (let i = 0; i < users.length; i++) {
       if (users[i].userId === userId) {
         dispatch(setUserAuthAC(users[i]))
       }
     }
-    debugger
   };
 };
 export const setOwnerPhoto = (photo) => {
@@ -102,8 +100,6 @@ export const updateProfile = (profile, data, userId) => {
 }
 
 export const savePhoto = (data, userId, file) => {
-  let storage = firebase.storage()
-  console.log(storage);
   return (dispatch) => {
     const filePath = firebase.auth().currentUser.uid + '/' + "x";
     return firebase.storage().ref(filePath).put(file).then(function (fileSnapshot) {
@@ -111,7 +107,6 @@ export const savePhoto = (data, userId, file) => {
         db.collection('users').doc(userId).update({ xx: { ...data, photoURL: url } }).then(() => {
           getData(dispatch, userId);
         })
-        console.log(url);
       });
     }).catch(function (error) {
       console.error('There was an error uploading a file to Cloud Storage:', error);
@@ -149,7 +144,51 @@ export const logout = () => {
   }
 };
 
+export const loginTest = () => {
+  return (dispatch) => {
+    let provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope('profile');
+    provider.addScope('email');
+    provider.setCustomParameters({
+      'login_hint': 'accaountt3@gmail.com',
+      "password_hint": "R1e2a3C4T5"
+    });
+    firebase.auth().signInWithPopup(provider).then((result) => {
+      let data = result.user;
+      db.collection('users').get().then((res => {
+        let someId = res.docs.some((item) => item.id == data.uid)
+        if (someId) {
+          getData(dispatch, data.uid);
+          dispatch(setIsOwner(data.uid));
+          dispatch(setOwnerName(data.displayName))
 
+          dispatch(isAnonymous(false))
+        } else {
+          let ref = db.collection('users').doc(`${data.uid}`);
+          ref.set({
+            xx: {
+              displayName: data.displayName,
+              name: null,
+              email: data.email,
+              userId: data.uid,
+              photoURL: data.photoURL,
+              status: null,
+              lookingForAJob: false,
+              lookingForAJobDescription: null,
+              aboutMe: null,
+            }
+          }).then(() => {
+            getData(dispatch, data.uid);
+            dispatch(setIsOwner(data.uid))
+            dispatch(setOwnerPhoto(data.photoURL))
+            dispatch(isAnonymous(false))
+            dispatch(setOwnerName(data.displayName))
+          })
+        }
+      }))
+    }).catch(e => console.log(e))
+  };
+}
 export const login2 = () => {
   return (dispatch) => {
     let provider = new firebase.auth.GoogleAuthProvider();
@@ -159,7 +198,6 @@ export const login2 = () => {
       let data = result.user;
       db.collection('users').get().then((res => {
         let someId = res.docs.some((item) => item.id == data.uid)
-        console.log(data);
         if (someId) {
           getData(dispatch, data.uid);
           dispatch(setIsOwner(data.uid));
@@ -168,7 +206,6 @@ export const login2 = () => {
           dispatch(isAnonymous(false))
         } else {
           let ref = db.collection('users').doc(`${data.uid}`);
-          debugger
           ref.set({
             xx: {
               displayName: data.displayName,

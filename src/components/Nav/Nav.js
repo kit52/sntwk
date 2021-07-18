@@ -1,11 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import s from "./Nav.module.css";
-// import SideBar from "./SideBar/SideBar";
+
 const Nav = () => {
   return (
     <nav className={s.nav}>
-
       <div className={s.item}>
         <NavLink to="/Dialogs" activeClassName={s.active}>
           Сообщения
@@ -25,8 +24,6 @@ const Nav = () => {
         <div className={s.item}>
           <a href="#">Settings</a>
         </div> */}
-
-
     </nav>
   );
 };

@@ -72,9 +72,6 @@ let mapDispatchToProps = (dispatch) => {
     toggleFollowingInProgress: (followingInProgress, id) => {
       dispatch(followingInProgressAC(followingInProgress, id));
     },
-    // requestUsers: (currentPage, pageSize) => {
-    //   dispatch(requestUsers(currentPage, pageSize));
-    // },
 
   };
 };
@@ -84,16 +81,6 @@ class UserContainer extends React.Component {
     this.props.getFollowers(this.props.isOwner)
 
   }
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.followingInUserId.length != this.props.followingInUserId.length) {
-  //     console.log(prevProps.followingInUserId);
-  //     console.log(this.props.followingInUserId);
-  //     this.props.getFollowers(this.props.isOwner)
-  //   }
-  // }
-  // onPageChanged = (pageNumber) => {
-  //   this.props.setCurrentPage(pageNumber);
-  // };
   render() {
     return (
       <>
@@ -108,14 +95,10 @@ class UserContainer extends React.Component {
           pageSize={this.props.pageSize}
           onPageChanged={this.onPageChanged}
           users={this.props.users}
-          unfollow={this.props.unfollow}
-          follow={this.props.follow}
           currentPage={this.props.currentPage}
           toggleFollowingInProgress={this.props.toggleFollowingInProgress}
           followingInProgress={this.props.followingInProgress}
           followingInUserId={this.props.followingInUserId}
-          following={this.props.following}
-          unfollowing={this.props.unfollowing}
         />
       </>
     );
@@ -126,9 +109,3 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps)
 )(UserContainer);
 
-// const UsersContainer = connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(UserContainer);
-// let UsersRedirectContainer = withAuthRedirect(UsersContainer);
-// export default UsersRedirectContainer;

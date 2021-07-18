@@ -38,3 +38,8 @@
   color: rgba(80, 81, 96, 0.56);
   margin-bottom: 32px;
 }
+.login_btn {
+  margin-bottom: 10px;
+  padding-right: 32px;
+  padding-left: 32px;
+}

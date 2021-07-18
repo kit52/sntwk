@@ -2,16 +2,12 @@ import React from "react";
 import s from "./Header.module.css";
 import { NavLink } from "react-router-dom";
 import Nav from "../Nav/Nav";
-
+import Button from "../btn/Button";
 
 
 const Header = (props) => {
-
-  console.log(props);
-
   return (
     <header className={s.header}>
-
       <div className={s.header_container}>
         <div className={s.header_nav}>
           <div className={s.header_logo}>MOLOKO</div>
@@ -25,8 +21,8 @@ const Header = (props) => {
           />
           <p className={s.header_userText}>Привет, {props.OwnerName}</p>
           <div>^</div>
+          <div className={s.header_user__popup}><Button text="Выйти" func={props.logout} /></div>
         </NavLink>
-
       </div>
     </header>
   );

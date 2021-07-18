@@ -3,7 +3,6 @@ import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import ProfileInfo from "./MyPosts/ProdileInfo/ProfileInfo";
 import s from "./Profile.module.css"
 const Profile = (props) => {
-  console.log(props);
   return (
     <div>
       <div className={s.profile_name}>{props.displayName}</div>
@@ -16,9 +15,7 @@ const Profile = (props) => {
         userId={props.userId}
         updateProfileStatus={props.updateProfileStatus}
         saveProfile={props.saveProfile}
-
       />
-
     </div>
   );
 };

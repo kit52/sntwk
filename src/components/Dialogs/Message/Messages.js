@@ -7,7 +7,6 @@ import { connect } from "react-redux";
 import {
   sendMessage,
   loadMessages
-  // getMessage
 } from "../../../redux/dialogs-reducer";
 import { useEffect } from "react";
 import { useRef } from "react";
@@ -43,9 +42,7 @@ let mapStateToProps = (state) => {
 
 
 const Messages = ({ props }) => {
-  console.log(props);
   const divRef = useRef(null);
-
   useEffect(() => {
     divRef.current.scrollIntoView({ behavior: 'smooth' });
   });
@@ -59,7 +56,6 @@ const Messages = ({ props }) => {
   };
   let messageElem = [];
   if (props.message[props.interlocutor.userId] && props.message[props.interlocutor.userId].length > 0) {
-    console.log(props.message[props.interlocutor.userId]);
     [...props.message[props.interlocutor.userId]].reverse().map((item) => {
       let elem = <div className={item.userId === props.isOwner ? s.message_rigth : s.message_left}>
         <div className={s.message__item}><img src={item.userId == props.isOwner ? props.ownerPhoto : props.interlocutor.photoURL} alt="icon" className={s.message__avatar} />

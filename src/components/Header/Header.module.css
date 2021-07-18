@@ -48,6 +48,7 @@
 .header_user {
   padding-left: 16px;
   border-left: 1px solid rgba(104, 130, 158, 0.1);
+  position: relative;
 }
 .header_userText {
   padding-left: 16px;
@@ -56,4 +57,21 @@
   font-size: 12px;
   line-height: 14px;
   color: #505160;
+}
+.header_user__popup {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: -60px;
+  left: 0px;
+  width: 100%;
+  height: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.header_user__popup button {
+  width: 100%;
+}
+.header_user:hover .header_user__popup {
+  top: 52px;
 }

@@ -32,7 +32,6 @@ class ProfileContainer extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
     this.refreshProfile();
 
   }
@@ -66,8 +65,6 @@ export default compose(
     updateProfile,
     setProfile,
     setUserProfile,
-    getUserProfileStatus,
-    updateProfileStatus,
     savePhoto,
 
   }),

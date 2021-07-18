@@ -17,7 +17,6 @@ export const addMessageData = (data) => {
   return { type: ADD_MESSAGE, data };
 };
 const dialogsReducer = (state = initialState, action) => {
-  debugger
   switch (action.type) {
     case ADD_MESSAGE:
       return {
@@ -39,7 +38,6 @@ export const loadMessages = (interlocutorId, isOwner) => {
       snapshot.docs.map(item => {
         arr.push(item.data())
       })
-      console.log(arr);
       let data = {
         [interlocutorId]: arr
       }
@@ -67,7 +65,6 @@ export const sendMessage = (newMessage, interlocutorId, isOwner, ownerName) => {
         userId: isOwner
       }).then(() => {
         dispatch(reset("newMessage"))
-        console.log("well");
       })
     })
 

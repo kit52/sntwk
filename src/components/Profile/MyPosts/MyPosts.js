@@ -11,7 +11,6 @@ const MyPosts = (props) => {
     let newPostText = data.newPostText;
     props.addPost(props.userId, newPostText);
   };
-  console.log(props);
   let postElements = props.posts.map((p) => <Posts time={p.time} avatar={props.avatar} message={p.message} />);
   return (
     <div className={s.myposts}>

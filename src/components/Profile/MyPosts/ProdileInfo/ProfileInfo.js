@@ -11,7 +11,6 @@ import editIcon from '../../../../assets/icon/icons_edit.svg'
 
 
 const ProfileInfo = (props) => {
-  console.log(props);
 
   let [editMode, setEditMode] = useState(false);
   let goToEditMode = () => {
