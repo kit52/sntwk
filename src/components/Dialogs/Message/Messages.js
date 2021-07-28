@@ -17,6 +17,7 @@ import Preloader from '../../../assets/icon/Loader.svg'
 
 class MessageContainer extends React.Component {
   componentDidMount() {
+    console.log(this.props);
     console.log("render MessageContainer");
     this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner, 10)
   }
@@ -65,6 +66,8 @@ const Messages = (props) => {
       setSLoading(false)
     }
   }
+  const divRef = useRef(null);
+  useEffect(() => { divRef.current.scrollIntoView(false) }, [props.interlocutor.userId])
 
   useEffect(() => {
     if (loading) {
@@ -98,12 +101,10 @@ const Messages = (props) => {
     </div>)
   }
   const Mes = (props) => {
-    const divRef = useRef(null);
-    useEffect(() => { divRef.current.scrollIntoView(false) }, [])
     return (
       <>
         {props.messageElem}
-        <div ref={divRef} />
+
       </>
 
     )
@@ -113,7 +114,8 @@ const Messages = (props) => {
       updateSetScroll(e)
     }} className={s.dialog}>
       {loading ? <img src={Preloader} alt="preloader" className={s.preloader} /> : <div className={s.preloader_null} />}
-      <Mes userId={props.interlocutor.userId} messageElem={messageElem} />
+      <Mes messageElem={messageElem} />
+      <div ref={divRef} />
     </div>
     <AddNewMessageFormRedux onSubmit={onSubmit} />
   </div>;
