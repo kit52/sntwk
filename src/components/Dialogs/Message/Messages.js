@@ -17,9 +17,11 @@ import Preloader from '../../../assets/icon/Loader.svg'
 
 class MessageContainer extends React.Component {
   componentDidMount() {
+    console.log("render MessageContainer");
     this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner, 10)
   }
   componentDidUpdate(prevState) {
+    console.log("renderUpdate MessageContainer");
     if (prevState.path != this.props.path) {
       this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner, 10)
     }
@@ -27,28 +29,23 @@ class MessageContainer extends React.Component {
 
   render() {
     return <Messages
-      props={this.props}
-      setIsFetchingStatus={this.props.setIsFetchingStatus}
-      isFetching={this.props.isFetching}
+      sendMessage={this.props.sendMessage}
       isOwner={this.props.isOwner}
+      ownerName={this.props.ownerName}
       ownerPhoto={this.props.ownerPhoto}
-      updateCountMessage={this.updateCountMessage}
       loadMessages={this.props.loadMessages}
       interlocutor={this.props.interlocutor}
       message={this.props.message}
-      interlocutorName={this.props.interlocutor.name ? this.props.interlocutor.name : this.props.interlocutor.displayName}
+
     />
   }
 }
 let mapStateToProps = (state) => {
   return {
     isOwner: state.auth.isOwner,
-    users: state.userPage.users,
     ownerName: state.auth.ownerName,
     ownerPhoto: state.auth.photoOwner,
     message: state.dialogsPage.messageData,
-    isFetching: state.dialogsPage.isFetching,
-    state: state
   };
 };
 
@@ -56,12 +53,10 @@ let mapStateToProps = (state) => {
 const Messages = (props) => {
   console.log(props);
   const [countMessage, setCount] = useState(10);
-
   const [loading, setSLoading] = useState(false);
   let updateSetCount = () => {
     setCount(countMessage + 10)
   }
-
   let updateSetScroll = (e) => {
     if (e.target.scrollTop == 0) {
       updateSetCount()
@@ -69,7 +64,6 @@ const Messages = (props) => {
     } else {
       setSLoading(false)
     }
-
   }
 
   useEffect(() => {
@@ -82,14 +76,8 @@ const Messages = (props) => {
   useEffect(() => {
     setCount(10)
   }, [props.interlocutor.userId])
-  let onSubmit = (data) => {
-    props.props.sendMessage(
-      data.newMessage,
-      props.interlocutor.userId,
-      props.isOwner,
-      props.props.ownerName,
-    );
-  };
+
+  let onSubmit = (data) => { props.sendMessage(data.newMessage, props.interlocutor.userId, props.isOwner, props.ownerName,); };
   let messageElem = [];
   if (props.message[props.interlocutor.userId] && props.message[props.interlocutor.userId].length > 0) {
     [...props.message[props.interlocutor.userId]].reverse().map((item) => {
@@ -109,15 +97,23 @@ const Messages = (props) => {
       <p>Для начала поздаровайтесь с {props.interlocutor.displayName}</p>
     </div>)
   }
+  const Mes = (props) => {
+    const divRef = useRef(null);
+    useEffect(() => { divRef.current.scrollIntoView(false) }, [])
+    return (
+      <>
+        {props.messageElem}
+        <div ref={divRef} />
+      </>
 
+    )
+  }
   return <div>
     <div onScroll={(e) => {
       updateSetScroll(e)
     }} className={s.dialog}>
-
       {loading ? <img src={Preloader} alt="preloader" className={s.preloader} /> : <div className={s.preloader_null} />}
-      {messageElem}
-
+      <Mes userId={props.interlocutor.userId} messageElem={messageElem} />
     </div>
     <AddNewMessageFormRedux onSubmit={onSubmit} />
   </div>;
