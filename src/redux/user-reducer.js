@@ -77,11 +77,17 @@ const usersReducer = (state = initialState, action) => {
   }
 };
 
-export const getAllUsers = () => {
+export const getAllUsers = (id) => {
   return (dispatch) => {
     dispatch(toggleFetchingAc(true));
     firebase.firestore().collection('users').get().then((res) => {
-      let arr = []; res.docs.map(item => arr.push(item.data().xx));
+      let arr = [];
+      res.docs.map((item) => {
+        if (item.id != id) {
+          arr.push(item.data().xx)
+        }
+      })
+
       dispatch(setUsersAc(arr))
       dispatch(toggleFetchingAc(false));
     })

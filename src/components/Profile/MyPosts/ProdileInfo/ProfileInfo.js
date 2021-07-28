@@ -8,8 +8,6 @@ import MyPostsContainer from "../MyPostsContainer";
 import editIcon from '../../../../assets/icon/icons_edit.svg'
 
 
-
-
 const ProfileInfo = (props) => {
 
   let [editMode, setEditMode] = useState(false);
@@ -58,8 +56,6 @@ const ProfileInfo = (props) => {
                 </div>
               ) : null}
             </div>
-
-
           </div>
           {editMode ? <ProfileDataReduxForm profile={props.profile}
             initialValues={props.profile} onSubmit={onSubmit} /> :

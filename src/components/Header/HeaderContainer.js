@@ -17,7 +17,7 @@ let mapStateToProps = (state) => {
     photoOwner: state.auth.photoOwner,
     isAnonymous: state.auth.isAnonymous,
     userId: state.auth.userId,
-    OwnerName: state.auth.OwnerName
+    ownerName: state.auth.ownerName
   };
 };
 

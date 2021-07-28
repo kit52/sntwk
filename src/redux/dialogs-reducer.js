@@ -3,6 +3,7 @@ import "firebase/auth";
 import "firebase/firestore";
 import { reset } from "redux-form";
 const ADD_MESSAGE = "ADD-MESSAGE";
+const IS_FETCHING = "IS_FETCHING";
 let initialState = {
   dialogsData: [
     { name: "Alex", id: "1" },
@@ -11,10 +12,14 @@ let initialState = {
   ],
   messageData: { "12321": { text: "sdsa" } },
   newMessageBody: "",
+  isFetching: false
 };
 
 export const addMessageData = (data) => {
   return { type: ADD_MESSAGE, data };
+};
+export const setIsFetchingStatus = (bool) => {
+  return { type: ADD_MESSAGE, bool };
 };
 const dialogsReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -23,15 +28,21 @@ const dialogsReducer = (state = initialState, action) => {
         ...state,
         messageData: { ...state.massageData, ...action.data },
       };
+    case IS_FETCHING:
+      return {
+        ...state,
+        isFetching: action.bool
+      }
     default:
       return state;
   }
 };
 
 
-export const loadMessages = (interlocutorId, isOwner) => {
+export const loadMessages = (interlocutorId, isOwner, n) => {
+
   let db3 = firebase.firestore().collection('users').doc(`${isOwner}/`).collection('messages')
-    .doc(`${interlocutorId}`).collection('message').orderBy('data', 'desc').limit(4);
+    .doc(`${interlocutorId}`).collection('message').orderBy('data', 'desc').limit(n);
   return (dispatch) => {
     db3.onSnapshot((snapshot) => {
       let arr = [];
@@ -42,6 +53,7 @@ export const loadMessages = (interlocutorId, isOwner) => {
         [interlocutorId]: arr
       }
       dispatch(addMessageData(data))
+
     })
   }
 

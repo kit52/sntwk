@@ -2,6 +2,7 @@
   width: 40px;
   height: 40px;
   border-radius: 4px;
+  object-fit: cover;
 }
 .item {
   display: flex;
@@ -14,8 +15,6 @@
 .item_time {
   font-size: 14px;
   line-height: 17px;
-  text-align: center;
-
   color: rgba(80, 81, 96, 0.65);
 }
 .item_text {

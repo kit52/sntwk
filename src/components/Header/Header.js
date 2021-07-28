@@ -19,8 +19,8 @@ const Header = (props) => {
             src={props.photoOwner || "https://e7.pngegg.com/pngimages/593/357/png-clipart-computer-icons-human-resources-human-capital-human-resource-miscellaneous-company.png"}
             alt="icon"
           />
-          <p className={s.header_userText}>Привет, {props.OwnerName}</p>
-          <div>^</div>
+          <p className={s.header_userText}>Привет, {props.ownerName}</p>
+
           <div className={s.header_user__popup}><Button text="Выйти" func={props.logout} /></div>
         </NavLink>
       </div>

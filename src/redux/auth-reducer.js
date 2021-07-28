@@ -17,6 +17,7 @@ let initialState = {
     isAuth: false,
 
   },
+  ownerName: null,
   isAnonymous: true,
   isOwner: null,
   photoOwner: null,
@@ -34,8 +35,8 @@ const getData = (dispatch, userId) => {
 export const setUserAuthAC = (data) => {
   return { type: SET_USER_DATA, data };
 };
-export const setIsOwner = (userId) => {
-  return { type: SET_OWNER_USER, userId };
+export const setIsOwner = (userId, name) => {
+  return { type: SET_OWNER_USER, userId, name };
 };
 export const setUserProfile = (users, userId) => {
   return (dispatch) => {
@@ -49,9 +50,7 @@ export const setUserProfile = (users, userId) => {
 export const setOwnerPhoto = (photo) => {
   return { type: SET_OWNER_PHOTO, photo };
 }
-export const setOwnerName = (name) => {
-  return { type: SET_OWNER_NAME, name };
-}
+
 export const isAnonymous = (bool) => {
   return { type: SET_IS_ANONYMOUS, bool };
 }
@@ -72,16 +71,12 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isOwner: action.userId,
+        ownerName: action.name,
       };
     case SET_OWNER_PHOTO:
       return {
         ...state,
         photoOwner: action.photo,
-      };
-    case SET_OWNER_NAME:
-      return {
-        ...state,
-        OwnerName: action.name,
       };
 
     default:
@@ -132,13 +127,13 @@ export const logout = () => {
         },
         photoOwner: null,
         isOwner: null,
-        OwnerName: null
+        OwnerName: null,
+        isAnonymous: true
       }
-
       dispatch(setUserAuthAC(resetObj));
-      dispatch(setIsOwner(null))
-      dispatch(setOwnerPhoto(null))
+      dispatch(setIsOwner(null, null));
       dispatch(isAnonymous(true))
+      dispatch(setOwnerPhoto(null))
     })
 
   }
@@ -159,9 +154,7 @@ export const loginTest = () => {
         let someId = res.docs.some((item) => item.id == data.uid)
         if (someId) {
           getData(dispatch, data.uid);
-          dispatch(setIsOwner(data.uid));
-          dispatch(setOwnerName(data.displayName))
-
+          dispatch(setIsOwner(data.uid, data.displayName));
           dispatch(isAnonymous(false))
         } else {
           let ref = db.collection('users').doc(`${data.uid}`);
@@ -179,10 +172,9 @@ export const loginTest = () => {
             }
           }).then(() => {
             getData(dispatch, data.uid);
-            dispatch(setIsOwner(data.uid))
+            dispatch(setIsOwner(data.uid, data.displayName))
             dispatch(setOwnerPhoto(data.photoURL))
             dispatch(isAnonymous(false))
-            dispatch(setOwnerName(data.displayName))
           })
         }
       }))
@@ -200,9 +192,7 @@ export const login2 = () => {
         let someId = res.docs.some((item) => item.id == data.uid)
         if (someId) {
           getData(dispatch, data.uid);
-          dispatch(setIsOwner(data.uid));
-          dispatch(setOwnerName(data.displayName))
-
+          dispatch(setIsOwner(data.uid, data.displayName));
           dispatch(isAnonymous(false))
         } else {
           let ref = db.collection('users').doc(`${data.uid}`);
@@ -220,10 +210,9 @@ export const login2 = () => {
             }
           }).then(() => {
             getData(dispatch, data.uid);
-            dispatch(setIsOwner(data.uid))
+            dispatch(setIsOwner(data.uid, data.displayName))
             dispatch(setOwnerPhoto(data.photoURL))
             dispatch(isAnonymous(false))
-            dispatch(setOwnerName(data.displayName))
           })
         }
       }))

@@ -6,25 +6,36 @@ import { Textarea } from "../../common/FormControl/FormControl";
 import { connect } from "react-redux";
 import {
   sendMessage,
-  loadMessages
+  loadMessages,
+  setIsFetchingStatus
 } from "../../../redux/dialogs-reducer";
 import { useEffect } from "react";
 import { useRef } from "react";
 import Button from "../../btn/Button"
+import { useState } from "react";
+import Preloader from '../../../assets/icon/Loader.svg'
 
 class MessageContainer extends React.Component {
   componentDidMount() {
-    this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner)
+    this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner, 10)
   }
   componentDidUpdate(prevState) {
     if (prevState.path != this.props.path) {
-      this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner)
+      this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner, 10)
     }
   }
+
   render() {
-    return <Messages props={this.props}
-      interlocutorPhoto={this.props.interlocutor.photoURL}
-      message={this.props.message[this.props.interlocutor.userId]}
+    return <Messages
+      props={this.props}
+      setIsFetchingStatus={this.props.setIsFetchingStatus}
+      isFetching={this.props.isFetching}
+      isOwner={this.props.isOwner}
+      ownerPhoto={this.props.ownerPhoto}
+      updateCountMessage={this.updateCountMessage}
+      loadMessages={this.props.loadMessages}
+      interlocutor={this.props.interlocutor}
+      message={this.props.message}
       interlocutorName={this.props.interlocutor.name ? this.props.interlocutor.name : this.props.interlocutor.displayName}
     />
   }
@@ -33,25 +44,50 @@ let mapStateToProps = (state) => {
   return {
     isOwner: state.auth.isOwner,
     users: state.userPage.users,
-    ownerName: state.auth.profile.displayName,
+    ownerName: state.auth.ownerName,
     ownerPhoto: state.auth.photoOwner,
-    message: state.dialogsPage.messageData, state: state
+    message: state.dialogsPage.messageData,
+    isFetching: state.dialogsPage.isFetching,
+    state: state
   };
 };
-// interlocutorPhoto: state.userPage.users.findIndex((item)=>{item.userId === this.props.uid})
 
 
-const Messages = ({ props }) => {
-  const divRef = useRef(null);
+const Messages = (props) => {
+  console.log(props);
+  const [countMessage, setCount] = useState(10);
+
+  const [loading, setSLoading] = useState(false);
+  let updateSetCount = () => {
+    setCount(countMessage + 10)
+  }
+
+  let updateSetScroll = (e) => {
+    if (e.target.scrollTop == 0) {
+      updateSetCount()
+      setSLoading(true)
+    } else {
+      setSLoading(false)
+    }
+
+  }
+
   useEffect(() => {
-    divRef.current.scrollIntoView({ behavior: 'smooth' });
-  });
+    if (loading) {
+      props.loadMessages(props.interlocutor.userId, props.isOwner, countMessage)
+      setSLoading(false)
+    }
+  }, [loading])
 
+  useEffect(() => {
+    setCount(10)
+  }, [props.interlocutor.userId])
   let onSubmit = (data) => {
-    props.sendMessage(data.newMessage,
+    props.props.sendMessage(
+      data.newMessage,
       props.interlocutor.userId,
       props.isOwner,
-      props.ownerName,
+      props.props.ownerName,
     );
   };
   let messageElem = [];
@@ -75,13 +111,20 @@ const Messages = ({ props }) => {
   }
 
   return <div>
-    <div className={s.dialog}>
+    <div onScroll={(e) => {
+      updateSetScroll(e)
+    }} className={s.dialog}>
+
+      {loading ? <img src={Preloader} alt="preloader" className={s.preloader} /> : <div className={s.preloader_null} />}
       {messageElem}
-      <div ref={divRef} />
+
     </div>
     <AddNewMessageFormRedux onSubmit={onSubmit} />
   </div>;
 };
+
+
+
 const maxLength50 = maxLengthCreator(50);
 const AddNewMessageForm = (props) => {
   return (
@@ -105,4 +148,4 @@ const AddNewMessageFormRedux = reduxForm({ form: "newMessage" })(
   AddNewMessageForm
 );
 
-export default connect(mapStateToProps, { sendMessage, loadMessages })(MessageContainer);
+export default connect(mapStateToProps, { sendMessage, loadMessages, setIsFetchingStatus })(MessageContainer);

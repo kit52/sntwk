@@ -67,7 +67,7 @@
 }
 .editAvatar:hover {
   color: #aebd38;
-  background-color: rgba(104, 130, 158, 0.1);
+  border-bottom: 1px solid rgba(104, 130, 158, 0.1);
 }
 .profileInfo_editBtn {
   display: flex;
@@ -82,7 +82,6 @@
   border-radius: 3px;
 }
 .profileInfo_editBtn:hover {
-  border: 1px solid #aebd38;
   color: #aebd38;
 }
 .profileinfo_icon {
@@ -100,6 +99,7 @@
 .item input {
   border: none;
   outline: none;
+  padding-left: 16px;
   border-bottom: 1px solid rgba(104, 130, 158, 0.3);
   width: 100%;
 }

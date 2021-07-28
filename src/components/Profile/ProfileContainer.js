@@ -7,8 +7,6 @@ import {
   getUserProfileStatus,
   updateProfileStatus,
 
-
-
 } from "../../redux/profile-reducer";
 import { setUserProfile, savePhoto, } from "../../redux/auth-reducer";
 import { updateProfile } from "../../redux/auth-reducer";

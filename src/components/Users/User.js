@@ -16,7 +16,7 @@ let User = ({ u, props }) => {
 
             {props.followingInUserId.some((id) => id === u.userId) ? (
               <Button
-                class={s.follow__btn}
+                class={s.unfollow__btn}
                 disabled={props.followingInProgress}
                 func={() => {
                   props.toUnFollow(props.followingInUserId, props.isOwner, u.userId);

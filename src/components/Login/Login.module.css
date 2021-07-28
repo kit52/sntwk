@@ -43,3 +43,13 @@
   padding-right: 32px;
   padding-left: 32px;
 }
+.login_test {
+  background-color: transparent;
+  color: #aebd38;
+  width: 215px;
+  transition: all 0.5s ease-in;
+}
+.login_test:hover {
+  transition: all 0.5s ease-in;
+  transform: scale(1.1);
+}

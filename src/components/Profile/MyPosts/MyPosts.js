@@ -20,7 +20,7 @@ const MyPosts = (props) => {
     </div>
   );
 };
-let maxLength20 = maxLengthCreator(20);
+let maxLength50 = maxLengthCreator(50);
 const AddPostForm = (props) => {
 
   return (
@@ -29,7 +29,7 @@ const AddPostForm = (props) => {
         component={Textarea}
         placeholder="Введите ваш пост здесь"
         name="newPostText"
-        validate={[required, maxLength20]}
+        validate={[required, maxLength50]}
       />
       <div className={s.mypost_btnContainer}>
         <Button text="Добавить пост" class="mypost_button" />
