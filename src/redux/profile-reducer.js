@@ -75,10 +75,10 @@ const profileReducer = (state = initialState, action) => {
       return state;
   }
 };
-export const getPost = (userId) => {
+export const getPost = (userId, n = 12) => {
   return (dispatch) => {
     let db = firebase.firestore().collection('users').doc(`${userId}/`).collection('posts').orderBy('data', 'desc')
-      .limit(12);
+      .limit(n);
     db.get().then((res) => {
       let arr = res.docs.map(item => item.data());
       dispatch(addPostAC(arr))

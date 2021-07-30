@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import s from "./Message.module.css";
 import { Field, reduxForm } from "redux-form";
 import { maxLengthCreator, required } from "../../utils/validation/FormValid";
@@ -16,20 +16,20 @@ import { useState } from "react";
 import Preloader from '../../../assets/icon/Loader.svg'
 
 class MessageContainer extends React.Component {
+  onSubmit = (data) => { this.props.sendMessage(data.newMessage, this.props.interlocutor.userId, this.props.isOwner, this.props.ownerName); };
   componentDidMount() {
-    console.log(this.props);
-    console.log("render MessageContainer");
+    console.log("СopmponentDidMount MessageContainer");
     this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner, 10)
   }
   componentDidUpdate(prevState) {
-    console.log("renderUpdate MessageContainer");
     if (prevState.path != this.props.path) {
       this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner, 10)
     }
   }
 
   render() {
-    return <Messages
+    console.log("render");
+    return <div><Messages
       sendMessage={this.props.sendMessage}
       isOwner={this.props.isOwner}
       ownerName={this.props.ownerName}
@@ -37,8 +37,9 @@ class MessageContainer extends React.Component {
       loadMessages={this.props.loadMessages}
       interlocutor={this.props.interlocutor}
       message={this.props.message}
-
     />
+      <AddNewMessageFormRedux onSubmit={this.onSubmit} />
+    </div>
   }
 }
 let mapStateToProps = (state) => {
@@ -52,22 +53,13 @@ let mapStateToProps = (state) => {
 
 
 const Messages = (props) => {
-  console.log(props);
   const [countMessage, setCount] = useState(10);
   const [loading, setSLoading] = useState(false);
-  let updateSetCount = () => {
-    setCount(countMessage + 10)
-  }
-  let updateSetScroll = (e) => {
-    if (e.target.scrollTop == 0) {
-      updateSetCount()
-      setSLoading(true)
-    } else {
-      setSLoading(false)
-    }
-  }
   const divRef = useRef(null);
-  useEffect(() => { divRef.current.scrollIntoView(false) }, [props.interlocutor.userId])
+
+  useEffect(() => {
+    divRef.current.scrollIntoView({ block: "center" })
+  }, [])
 
   useEffect(() => {
     if (loading) {
@@ -77,10 +69,22 @@ const Messages = (props) => {
   }, [loading])
 
   useEffect(() => {
+
     setCount(10)
   }, [props.interlocutor.userId])
 
-  let onSubmit = (data) => { props.sendMessage(data.newMessage, props.interlocutor.userId, props.isOwner, props.ownerName,); };
+  let updateSetScroll = (e) => {
+    if (e.target.scrollTop == 0) {
+      setCount(countMessage + 10)
+      setSLoading(true)
+    } else {
+      setSLoading(false)
+    }
+  }
+
+
+
+
   let messageElem = [];
   if (props.message[props.interlocutor.userId] && props.message[props.interlocutor.userId].length > 0) {
     [...props.message[props.interlocutor.userId]].reverse().map((item) => {
@@ -106,10 +110,10 @@ const Messages = (props) => {
         {props.messageElem}
 
       </>
-
     )
   }
-  return <div>
+  return (
+
     <div onScroll={(e) => {
       updateSetScroll(e)
     }} className={s.dialog}>
@@ -117,8 +121,8 @@ const Messages = (props) => {
       <Mes messageElem={messageElem} />
       <div ref={divRef} />
     </div>
-    <AddNewMessageFormRedux onSubmit={onSubmit} />
-  </div>;
+
+  );
 };
 
 

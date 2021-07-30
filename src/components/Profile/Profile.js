@@ -7,7 +7,6 @@ const Profile = (props) => {
     <div>
       <div className={s.profile_name}>{props.displayName}</div>
       <ProfileInfo
-
         updateProfile={props.updateProfile}
         profile={props.profile}
         savePhoto={props.savePhoto}

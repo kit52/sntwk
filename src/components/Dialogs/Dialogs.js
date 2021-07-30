@@ -40,7 +40,6 @@ const Dialogs = ({ props }) => {
           <MessageContainer
             path={props.location.pathname}
             interlocutor={interlocutor} />
-
           : null
         }
       </div>

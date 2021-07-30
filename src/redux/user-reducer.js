@@ -83,9 +83,7 @@ export const getAllUsers = (id) => {
     firebase.firestore().collection('users').get().then((res) => {
       let arr = [];
       res.docs.map((item) => {
-        if (item.id != id) {
-          arr.push(item.data().xx)
-        }
+        arr.push(item.data().xx)
       })
 
       dispatch(setUsersAc(arr))

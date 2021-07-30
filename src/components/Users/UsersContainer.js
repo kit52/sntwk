@@ -51,8 +51,8 @@ let mapDispatchToProps = (dispatch) => {
     toUnFollow: (followers, isOwner, userId) => {
       dispatch(toUnFollow(followers, isOwner, userId))
     },
-    getAllUsers: (isOwner) => {
-      dispatch(getAllUsers(isOwner))
+    getAllUsers: () => {
+      dispatch(getAllUsers())
     },
     getFollowers: (isOwner) => {
       dispatch(getFollowers(isOwner))
@@ -80,7 +80,7 @@ class UserContainer extends React.Component {
     console.log(this.props);
     console.log(this.props.isOwner);
     debugger
-    this.props.getAllUsers(this.props.isOwner);
+    this.props.getAllUsers();
     this.props.getFollowers(this.props.isOwner)
 
   }

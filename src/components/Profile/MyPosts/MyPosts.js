@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Field, reduxForm } from "redux-form";
 import { FormControl, Textarea } from "../../common/FormControl/FormControl.js";
 import { required, maxLengthCreator } from "../../utils/validation/FormValid.js"
@@ -7,6 +7,31 @@ import Button from "../../btn/Button";
 
 import Posts from "./Posts/Posts";
 const MyPosts = (props) => {
+  const [isFetching, setIsFetching] = useState(false);
+
+  let [count, setIsCount] = useState(12);
+  useEffect(() => {
+    document.addEventListener("scroll", scrollHandler)
+    return function () {
+      document.removeEventListener("scroll", scrollHandler)
+    }
+  })
+  const scrollHandler = (e) => {
+    if (e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100) {
+      setIsFetching(true)
+      setIsCount(count = count + 12)
+    }
+  }
+  useEffect(() => {
+    if (isFetching) {
+      props.getPost(props.userId, count)
+      setIsFetching(false)
+    }
+  }, [isFetching])
+
+
+
+
   let onSubmit = (data) => {
     let newPostText = data.newPostText;
     props.addPost(props.userId, newPostText);

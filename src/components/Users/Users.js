@@ -8,14 +8,15 @@ let Users = (props) => {
   // const loadAlsoUsers = () => {
   //   setEditMode(loadUsers);
   // };
-
+  console.log(props.users);
   return (
     <div>
       <div className={s.users_title}>Пользователи</div>
       <div className={s.users}>
         {props.users.map((u, i) => {
-
-          return <User u={u} props={props} />;
+          if (u.userId != props.isOwner) {
+            return <User u={u} props={props} />
+          }
         })}
       </div>
       {/* <div className={s.users__btn}><Button func={loadAlsoUsers} text="LOAD MORE" /></div> */}
