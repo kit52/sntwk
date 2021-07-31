@@ -19,11 +19,11 @@ class MessageContainer extends React.Component {
   onSubmit = (data) => { this.props.sendMessage(data.newMessage, this.props.interlocutor.userId, this.props.isOwner, this.props.ownerName); };
   componentDidMount() {
     console.log("СopmponentDidMount MessageContainer");
-    this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner, 10)
+    this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner, 20)
   }
   componentDidUpdate(prevState) {
     if (prevState.path != this.props.path) {
-      this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner, 10)
+      this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner, 20)
     }
   }
 
@@ -53,36 +53,44 @@ let mapStateToProps = (state) => {
 
 
 const Messages = (props) => {
-  const [countMessage, setCount] = useState(10);
-  const [loading, setSLoading] = useState(false);
-  const divRef = useRef(null);
+  let [count, setIsCount] = useState(20);
+  const [isFetching, setIsFetching] = useState(false);
+  const divRef = useRef();
+  const divRefWindow = useRef();
+
+  // useEffect(() => {
+  //   divRef.current.scrollIntoView({ block: "center" })
+  // }, [])
+
 
   useEffect(() => {
-    divRef.current.scrollIntoView({ block: "center" })
-  }, [])
-
-  useEffect(() => {
-    if (loading) {
-      props.loadMessages(props.interlocutor.userId, props.isOwner, countMessage)
-      setSLoading(false)
+    let x = divRefWindow.current;
+    x.addEventListener("scroll", scrollHandler)
+    return function () {
+      x.removeEventListener("scroll", scrollHandler)
     }
-  }, [loading])
+  })
 
-  useEffect(() => {
 
-    setCount(10)
-  }, [props.interlocutor.userId])
-
-  let updateSetScroll = (e) => {
+  const scrollHandler = (e) => {
+    console.log(e.target.scrollTop);
     if (e.target.scrollTop == 0) {
-      setCount(countMessage + 10)
-      setSLoading(true)
-    } else {
-      setSLoading(false)
+      setIsFetching(true)
+      setIsCount(count = count + 12)
     }
   }
 
+  useEffect(() => {
+    if (isFetching) {
+      props.loadMessages(props.interlocutor.userId, props.isOwner, count)
+      setIsFetching(false)
+    }
+  }, [isFetching])
 
+
+  useEffect(() => {
+    setIsCount(20)
+  }, [props.interlocutor.userId])
 
 
   let messageElem = [];
@@ -114,10 +122,8 @@ const Messages = (props) => {
   }
   return (
 
-    <div onScroll={(e) => {
-      updateSetScroll(e)
-    }} className={s.dialog}>
-      {loading ? <img src={Preloader} alt="preloader" className={s.preloader} /> : <div className={s.preloader_null} />}
+    <div className={s.dialog} ref={divRefWindow}>
+      {isFetching ? <img src={Preloader} alt="preloader" className={s.preloader} /> : <div className={s.preloader_null} />}
       <Mes messageElem={messageElem} />
       <div ref={divRef} />
     </div>
@@ -151,3 +157,5 @@ const AddNewMessageFormRedux = reduxForm({ form: "newMessage" })(
 );
 
 export default connect(mapStateToProps, { sendMessage, loadMessages, setIsFetchingStatus })(MessageContainer);
+
+
