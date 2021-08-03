@@ -1,27 +1,27 @@
 {
   "files": {
-    "main.css": "/sntwk/static/css/main.9f1f33d8.chunk.css",
-    "main.js": "/sntwk/static/js/main.9a72abfb.chunk.js",
-    "main.js.map": "/sntwk/static/js/main.9a72abfb.chunk.js.map",
-    "runtime-main.js": "/sntwk/static/js/runtime-main.53e5c96b.js",
-    "runtime-main.js.map": "/sntwk/static/js/runtime-main.53e5c96b.js.map",
-    "static/js/2.d4df08d3.chunk.js": "/sntwk/static/js/2.d4df08d3.chunk.js",
-    "static/js/2.d4df08d3.chunk.js.map": "/sntwk/static/js/2.d4df08d3.chunk.js.map",
+    "main.css": "/sntwk/static/css/main.f933bfde.chunk.css",
+    "main.js": "/sntwk/static/js/main.68f2de3c.chunk.js",
+    "main.js.map": "/sntwk/static/js/main.68f2de3c.chunk.js.map",
+    "runtime-main.js": "/sntwk/static/js/runtime-main.c01f9010.js",
+    "runtime-main.js.map": "/sntwk/static/js/runtime-main.c01f9010.js.map",
+    "static/js/2.8dccb175.chunk.js": "/sntwk/static/js/2.8dccb175.chunk.js",
+    "static/js/2.8dccb175.chunk.js.map": "/sntwk/static/js/2.8dccb175.chunk.js.map",
     "static/css/3.debef6f5.chunk.css": "/sntwk/static/css/3.debef6f5.chunk.css",
-    "static/js/3.85330d42.chunk.js": "/sntwk/static/js/3.85330d42.chunk.js",
-    "static/js/3.85330d42.chunk.js.map": "/sntwk/static/js/3.85330d42.chunk.js.map",
+    "static/js/3.f5bda5ff.chunk.js": "/sntwk/static/js/3.f5bda5ff.chunk.js",
+    "static/js/3.f5bda5ff.chunk.js.map": "/sntwk/static/js/3.f5bda5ff.chunk.js.map",
     "index.html": "/sntwk/index.html",
     "static/css/3.debef6f5.chunk.css.map": "/sntwk/static/css/3.debef6f5.chunk.css.map",
-    "static/css/main.9f1f33d8.chunk.css.map": "/sntwk/static/css/main.9f1f33d8.chunk.css.map",
-    "static/js/2.d4df08d3.chunk.js.LICENSE.txt": "/sntwk/static/js/2.d4df08d3.chunk.js.LICENSE.txt",
+    "static/css/main.f933bfde.chunk.css.map": "/sntwk/static/css/main.f933bfde.chunk.css.map",
+    "static/js/2.8dccb175.chunk.js.LICENSE.txt": "/sntwk/static/js/2.8dccb175.chunk.js.LICENSE.txt",
     "static/media/Loader.193097d2.svg": "/sntwk/static/media/Loader.193097d2.svg",
     "static/media/ProfileInfo.module.css": "/sntwk/static/media/icons_edit.7aceceb1.svg",
     "static/media/preloader.9431feb8.gif": "/sntwk/static/media/preloader.9431feb8.gif"
   },
   "entrypoints": [
-    "static/js/runtime-main.53e5c96b.js",
-    "static/js/2.d4df08d3.chunk.js",
-    "static/css/main.9f1f33d8.chunk.css",
-    "static/js/main.9a72abfb.chunk.js"
+    "static/js/runtime-main.c01f9010.js",
+    "static/js/2.8dccb175.chunk.js",
+    "static/css/main.f933bfde.chunk.css",
+    "static/js/main.68f2de3c.chunk.js"
   ]
 }
