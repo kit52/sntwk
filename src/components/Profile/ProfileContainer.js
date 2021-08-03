@@ -4,8 +4,6 @@ import Profile from "./Profile";
 import {
   updatePosts,
   setProfile,
-  getUserProfileStatus,
-  updateProfileStatus,
 
 } from "../../redux/profile-reducer";
 import { setUserProfile, savePhoto, } from "../../redux/auth-reducer";

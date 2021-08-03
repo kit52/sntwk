@@ -2,7 +2,6 @@ import React from "react";
 import { Field, reduxForm } from "redux-form";
 import style from "../../../common/FormControl/FormControl.module.css";
 import { Input } from "../../../common/FormControl/FormControl";
-import { connect } from "react-redux";
 import s from "./ProfileInfo.module.css";
 const ProfileFormData = (props) => {
   return (

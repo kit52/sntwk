@@ -1,5 +1,4 @@
 export const required = (value) => {
-    console.log(value);
     if (value) {
         if (value.trim().length == 0) {
             return "Field is required"

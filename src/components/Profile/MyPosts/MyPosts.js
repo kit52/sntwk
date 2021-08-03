@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Field, reduxForm } from "redux-form";
-import { FormControl, Textarea } from "../../common/FormControl/FormControl.js";
+import { Textarea } from "../../common/FormControl/FormControl.js";
 import { required, maxLengthCreator } from "../../utils/validation/FormValid.js"
 import s from "./MyPosts.module.css";
 import Button from "../../btn/Button";

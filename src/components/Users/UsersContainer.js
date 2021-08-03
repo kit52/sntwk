@@ -1,23 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
 import {
-  followAC,
-  unfollowAC,
   setUsersAc,
   setTotalPagesAc,
   setCurrentPageAc,
   toggleFetchingAc,
   followingInProgressAC,
-  requestUsers,
-  following,
-  unfollowing,
   getAllUsers,
   toFollow,
   getFollowers,
   toUnFollow
 } from "../../redux/user-reducer";
 import {
-  getUsers,
   getCurrentPage,
   getTotalPages,
   getPageSize,
@@ -77,9 +71,6 @@ let mapDispatchToProps = (dispatch) => {
 };
 class UserContainer extends React.Component {
   componentDidMount() {
-    console.log(this.props);
-    console.log(this.props.isOwner);
-    debugger
     this.props.getAllUsers();
     this.props.getFollowers(this.props.isOwner)
 

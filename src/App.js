@@ -1,17 +1,12 @@
 import React from "react";
-import { BrowserRouter, HashRouter, Redirect, Route, Switch } from "react-router-dom";
+import { HashRouter, Redirect, Route } from "react-router-dom";
 import "./App.css";
 import HeaderContainer from "./components/Header/HeaderContainer";
-import Nav from "./components/Nav/Nav";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import UsersContainer from "./components/Users/UsersContainer";
 import Login from "./components/Login/Login";
-import { initializedSucsess } from "./redux/app-reducer";
-import { connect } from "react-redux";
 import Preloader from "./components/common/Preloader/Preloader";
 import { Suspense } from "react";
-import firebase from "firebase/app";
-import { firebaseConfig } from "./index";
 const DialogsContainer = React.lazy(() =>
   import("./components/Dialogs/DialogsContainer")
 );

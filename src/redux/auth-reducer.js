@@ -1,10 +1,8 @@
 import firebase from "../firebase";
 
-
 const SET_USER_DATA = "SET_USER_DATA";
 const SET_IS_ANONYMOUS = "SET_IS_ANONYMOUS";
 const SET_OWNER_PHOTO = "SET_OWNER_PHOTO";
-const SET_OWNER_NAME = "SET_OWNER_NAME";
 const SET_OWNER_USER = "SET_OWNER_USER";
 let initialState = {
   profile: {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import s from "./User.module.css";
 import User from "./User";
 
@@ -8,7 +8,6 @@ let Users = (props) => {
   // const loadAlsoUsers = () => {
   //   setEditMode(loadUsers);
   // };
-  console.log(props.users);
   return (
     <div>
       <div className={s.users_title}>Пользователи</div>

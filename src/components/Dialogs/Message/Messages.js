@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React from "react";
 import s from "./Message.module.css";
 import { Field, reduxForm } from "redux-form";
 import { maxLengthCreator, required } from "../../utils/validation/FormValid";
@@ -18,7 +18,6 @@ import Preloader from '../../../assets/icon/Loader.svg'
 class MessageContainer extends React.Component {
   onSubmit = (data) => { this.props.sendMessage(data.newMessage, this.props.interlocutor.userId, this.props.isOwner, this.props.ownerName); };
   componentDidMount() {
-    console.log("СopmponentDidMount MessageContainer");
     this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner, 20)
   }
   componentDidUpdate(prevState) {
@@ -28,7 +27,6 @@ class MessageContainer extends React.Component {
   }
 
   render() {
-    console.log("render");
     return <div><Messages
       sendMessage={this.props.sendMessage}
       isOwner={this.props.isOwner}
@@ -73,8 +71,6 @@ const Messages = (props) => {
 
 
   const scrollHandler = (e) => {
-    console.log(e.target.scrollTop);
-    console.log(e.currentTarget);
     if (e.target.scrollTop < 40) {
       setIsFetching(true)
       setIsCount(count = count + 12)
