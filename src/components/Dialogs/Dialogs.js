@@ -14,7 +14,7 @@ const Dialogs = ({ props }) => {
 
   let dialogsElements = followers.map((d) => (
     <DialogItem
-      photo={d.photoURL} name={d.displayName} id={d.userId} path={props.location.pathname} />
+      photo={d.photoURL} name={d.displayName} id={d.userId} path={props.location.pathname} key={d.userId} />
   ));
 
   let interlocutorId = props.location.pathname.slice(9);

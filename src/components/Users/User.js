@@ -13,7 +13,6 @@ let User = ({ u, props }) => {
             </div>
           </NavLink>
           <div>
-
             {props.followingInUserId.some((id) => id === u.userId) ? (
               <Button
                 class={s.unfollow__btn}
@@ -38,7 +37,6 @@ let User = ({ u, props }) => {
         <div>
           <NavLink to={`/Profile/${u.userId}`}>
             <div>{u.displayName}</div>
-
           </NavLink>
         </div>
       </div>

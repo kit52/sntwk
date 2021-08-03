@@ -14,7 +14,7 @@ let Users = (props) => {
       <div className={s.users}>
         {props.users.map((u, i) => {
           if (u.userId != props.isOwner) {
-            return <User u={u} props={props} />
+            return <User u={u} props={props} key={u.userId} />
           }
         })}
       </div>

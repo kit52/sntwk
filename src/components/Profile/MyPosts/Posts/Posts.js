@@ -2,7 +2,7 @@ import React from "react";
 import s from "./Posts.module.css";
 const Posts = (props) => {
   return (
-    <div className={s.item}>
+    <div className={s.item} key={props.serverTime}>
       <div className={s.item_iconContainer}>
         <img
           src={props.avatar}

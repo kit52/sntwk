@@ -36,7 +36,11 @@ const MyPosts = (props) => {
     let newPostText = data.newPostText;
     props.addPost(props.userId, newPostText);
   };
-  let postElements = props.posts.map((p) => <Posts time={p.time} avatar={props.avatar} message={p.message} />);
+  let postElements = props.posts.map((p) => <Posts
+    time={p.time}
+    avatar={props.avatar}
+    message={p.message}
+    key={p.serverTime + p.message} />);
   return (
     <div className={s.myposts}>
       <div className={s.myposts_title}>Мои посты</div>

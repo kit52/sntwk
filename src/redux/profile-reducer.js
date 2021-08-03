@@ -97,7 +97,8 @@ export const addPost = (userId, text) => {
     firebase.firestore().collection('users').doc(`${userId}/`).collection('posts').add({
       data: firebase.firestore.FieldValue.serverTimestamp(),
       message: text,
-      time: `${time.getDate()}.${mount}.${time.getFullYear()}`
+      time: `${time.getDate()}.${mount}.${time.getFullYear()}`,
+      serverTime: firebase.firestore.FieldValue.serverTimestamp()
     })
       .then(() => {
         dispatch(getPost(userId))

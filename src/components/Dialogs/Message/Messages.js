@@ -94,7 +94,7 @@ const Messages = (props) => {
   if (props.message[props.interlocutor.userId] && props.message[props.interlocutor.userId].length > 0) {
     [...props.message[props.interlocutor.userId]].map((item) => {
       let elem = <div className={item.userId === props.isOwner ? s.message_rigth : s.message_left}>
-        <div className={s.message__item}><img src={item.userId == props.isOwner ? props.ownerPhoto : props.interlocutor.photoURL} alt="icon" className={s.message__avatar} />
+        <div className={s.message__item} key={item.data + item.userId}><img src={item.userId == props.isOwner ? props.ownerPhoto : props.interlocutor.photoURL} alt="icon" className={s.message__avatar} />
           <p className={s.messageName}>{item.name}</p>
         </div>
         <div className={s.message__text}>
@@ -109,19 +109,14 @@ const Messages = (props) => {
       <p>Для начала поздаровайтесь с {props.interlocutor.displayName}</p>
     </div>)
   }
-  const Mes = (props) => {
-    return (
-      <>
-        {props.messageElem}
 
-      </>
-    )
-  }
+
+
   return (
 
     <div className={s.dialog} ref={divRefWindow}>
       {isFetching ? <img src={Preloader} alt="preloader" className={s.preloader} /> : <div className={s.preloader_null} />}
-      <Mes messageElem={messageElem} />
+      {props.messageElem}
       <div ref={divRef} />
     </div>
 
