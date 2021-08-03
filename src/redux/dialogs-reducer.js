@@ -50,7 +50,7 @@ export const loadMessages = (interlocutorId, isOwner, n) => {
         arr.push(item.data())
       })
       let data = {
-        [interlocutorId]: arr
+        [interlocutorId]: arr.reverse()
       }
       dispatch(addMessageData(data))
 

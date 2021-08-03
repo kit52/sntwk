@@ -6,9 +6,10 @@
   cursor: pointer;
 }
 .user {
-  width: 10%;
   display: flex;
   flex-direction: column;
+  margin-bottom: 20px;
+  margin-right: 10px;
 }
 .user_container {
   display: flex;
@@ -37,6 +38,8 @@
 }
 .users {
   display: flex;
+  flex-wrap: wrap;
+  min-width: 100%;
 }
 .users_title {
   display: flex;

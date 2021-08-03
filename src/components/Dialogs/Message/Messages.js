@@ -58,9 +58,9 @@ const Messages = (props) => {
   const divRef = useRef();
   const divRefWindow = useRef();
 
-  // useEffect(() => {
-  //   divRef.current.scrollIntoView({ block: "center" })
-  // }, [])
+  useEffect(() => {
+    divRef.current.scrollIntoView({ block: "center" })
+  }, [])
 
 
   useEffect(() => {
@@ -74,7 +74,8 @@ const Messages = (props) => {
 
   const scrollHandler = (e) => {
     console.log(e.target.scrollTop);
-    if (e.target.scrollTop == 0) {
+    console.log(e.currentTarget);
+    if (e.target.scrollTop < 40) {
       setIsFetching(true)
       setIsCount(count = count + 12)
     }
@@ -95,7 +96,7 @@ const Messages = (props) => {
 
   let messageElem = [];
   if (props.message[props.interlocutor.userId] && props.message[props.interlocutor.userId].length > 0) {
-    [...props.message[props.interlocutor.userId]].reverse().map((item) => {
+    [...props.message[props.interlocutor.userId]].map((item) => {
       let elem = <div className={item.userId === props.isOwner ? s.message_rigth : s.message_left}>
         <div className={s.message__item}><img src={item.userId == props.isOwner ? props.ownerPhoto : props.interlocutor.photoURL} alt="icon" className={s.message__avatar} />
           <p className={s.messageName}>{item.name}</p>
