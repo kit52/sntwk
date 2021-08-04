@@ -16,7 +16,9 @@ import { useState } from "react";
 import Preloader from '../../../assets/icon/Loader.svg'
 
 class MessageContainer extends React.Component {
-  onSubmit = (data) => { this.props.sendMessage(data.newMessage, this.props.interlocutor.userId, this.props.isOwner, this.props.ownerName); };
+  onSubmit = (data) => {
+    this.props.sendMessage(data.newMessage, this.props.interlocutor.userId, this.props.isOwner, this.props.ownerName);
+  };
   componentDidMount() {
     this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner, 20)
   }
@@ -27,7 +29,7 @@ class MessageContainer extends React.Component {
   }
 
   render() {
-    return <div><Messages
+    return <div><MessagesItems
       sendMessage={this.props.sendMessage}
       isOwner={this.props.isOwner}
       ownerName={this.props.ownerName}
@@ -49,78 +51,51 @@ let mapStateToProps = (state) => {
   };
 };
 
+class MessagesItems extends React.Component {
+  constructor(props) {
+    super(props);
+    this.myRef = React.createRef();
+  }
+  scrollHandler() {
+    this.myRef.current.scrollIntoView({ block: "end", inline: "nearest" })
+  }
+  componentDidMount() {
+    this.scrollHandler()
+  }
+  componentDidUpdate() {
+    this.scrollHandler()
+  }
+
+  render() {
+    let messageElem = [];
+    if (this.props.message[this.props.interlocutor.userId] && this.props.message[this.props.interlocutor.userId].length > 0) {
+      [...this.props.message[this.props.interlocutor.userId]].map((item) => {
+        let elem = <div className={item.userId === this.props.isOwner ? s.message_rigth : s.message_left}>
+          <div className={s.message__item} key={item.data + item.userId}><img src={item.userId == this.props.isOwner ? this.props.ownerPhoto : this.props.interlocutor.photoURL} alt="icon" className={s.message__avatar} />
+            <p className={s.messageName}>{item.name}</p>
+          </div>
+          <div className={s.message__text}>
+            {item.message}
+          </div>
+        </div>
+        messageElem.push(elem)
+      })
+    } else {
+      messageElem.push(<div>
+        <h2>Вы еще не общались с {this.props.interlocutor.displayName}</h2>
+        <p>Для начала поздаровайтесь с {this.props.interlocutor.displayName}</p>
+      </div>)
+    }
+    return <div className={s.dialog}>
+      <Messages messageElem={messageElem} />
+      <div ref={this.myRef} >x</div>
+    </div>
+  }
+}
+
 
 const Messages = (props) => {
-  let [count, setIsCount] = useState(20);
-  const [isFetching, setIsFetching] = useState(false);
-  const divRef = useRef();
-  const divRefWindow = useRef();
-
-  useEffect(() => {
-    divRef.current.scrollIntoView({ block: "center" })
-  }, [])
-
-
-  useEffect(() => {
-    let x = divRefWindow.current;
-    x.addEventListener("scroll", scrollHandler)
-    return function () {
-      x.removeEventListener("scroll", scrollHandler)
-    }
-  })
-
-
-  const scrollHandler = (e) => {
-    if (e.target.scrollTop < 40) {
-      setIsFetching(true)
-      setIsCount(count = count + 12)
-    }
-  }
-
-  useEffect(() => {
-    if (isFetching) {
-      props.loadMessages(props.interlocutor.userId, props.isOwner, count)
-      setIsFetching(false)
-    }
-  }, [isFetching])
-
-
-  useEffect(() => {
-    setIsCount(20)
-  }, [props.interlocutor.userId])
-
-
-  let messageElem = [];
-  if (props.message[props.interlocutor.userId] && props.message[props.interlocutor.userId].length > 0) {
-    [...props.message[props.interlocutor.userId]].map((item) => {
-      let elem = <div className={item.userId === props.isOwner ? s.message_rigth : s.message_left}>
-        <div className={s.message__item} key={item.data + item.userId}><img src={item.userId == props.isOwner ? props.ownerPhoto : props.interlocutor.photoURL} alt="icon" className={s.message__avatar} />
-          <p className={s.messageName}>{item.name}</p>
-        </div>
-        <div className={s.message__text}>
-          {item.message}
-        </div>
-      </div>
-      messageElem.push(elem)
-    })
-  } else {
-    messageElem.push(<div>
-      <h2>Вы еще не общались с {props.interlocutor.displayName}</h2>
-      <p>Для начала поздаровайтесь с {props.interlocutor.displayName}</p>
-    </div>)
-  }
-
-
-
-  return (
-
-    <div className={s.dialog} ref={divRefWindow}>
-      {isFetching ? <img src={Preloader} alt="preloader" className={s.preloader} /> : <div className={s.preloader_null} />}
-      {props.messageElem}
-      <div ref={divRef} />
-    </div>
-
-  );
+  return (<>{props.messageElem}</>);
 };
 
 
