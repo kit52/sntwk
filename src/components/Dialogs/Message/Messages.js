@@ -22,11 +22,11 @@ class MessageContainer extends React.Component {
   componentDidMount() {
     this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner, 20)
   }
-  componentDidUpdate(prevState) {
-    if (prevState.path != this.props.path) {
-      this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner, 20)
-    }
-  }
+  // componentDidUpdate(prevState) {
+  //   if (prevState.path != this.props.path) {
+  //     this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner, 20)
+  //   }
+  // }
 
   render() {
     return <div><MessagesItems
@@ -62,8 +62,13 @@ class MessagesItems extends React.Component {
   componentDidMount() {
     this.scrollHandler()
   }
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     this.scrollHandler()
+    if (prevProps.interlocutor.userId != this.props.interlocutor.userId) {
+      this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner, 20)
+
+    }
+
   }
 
   render() {
@@ -88,13 +93,15 @@ class MessagesItems extends React.Component {
     }
     return <div className={s.dialog}>
       <Messages messageElem={messageElem} />
-      <div ref={this.myRef} >x</div>
+      <div ref={this.myRef} ></div>
     </div>
   }
 }
 
 
+
 const Messages = (props) => {
+
   return (<>{props.messageElem}</>);
 };
 
