@@ -15,33 +15,6 @@ import Button from "../../btn/Button"
 import { useState } from "react";
 import Preloader from '../../../assets/icon/Loader.svg'
 
-class MessageContainer extends React.Component {
-  onSubmit = (data) => {
-    this.props.sendMessage(data.newMessage, this.props.interlocutor.userId, this.props.isOwner, this.props.ownerName);
-  };
-  componentDidMount() {
-    this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner, 20)
-  }
-  // componentDidUpdate(prevState) {
-  //   if (prevState.path != this.props.path) {
-  //     this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner, 20)
-  //   }
-  // }
-
-  render() {
-    return <div><MessagesItems
-      sendMessage={this.props.sendMessage}
-      isOwner={this.props.isOwner}
-      ownerName={this.props.ownerName}
-      ownerPhoto={this.props.ownerPhoto}
-      loadMessages={this.props.loadMessages}
-      interlocutor={this.props.interlocutor}
-      message={this.props.message}
-    />
-      <AddNewMessageFormRedux onSubmit={this.onSubmit} />
-    </div>
-  }
-}
 let mapStateToProps = (state) => {
   return {
     isOwner: state.auth.isOwner,
@@ -51,26 +24,56 @@ let mapStateToProps = (state) => {
   };
 };
 
-class MessagesItems extends React.Component {
+class MessageContainer extends React.Component {
+  onSubmit = (data) => {
+    this.props.sendMessage(data.newMessage, this.props.interlocutor.userId, this.props.isOwner, this.props.ownerName);
+  };
+  componentDidMount() {
+    this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner, 20)
+  }
+  componentDidUpdate(prevState) {
+    if (prevState.path != this.props.path) {
+      this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner, 20)
+    }
+  }
+
+  render() {
+    return <div>
+      <div className={s.dialog}>
+        <Messages
+          message={this.props.message}
+          interlocutor={this.props.interlocutor}
+          isOwner={this.props.isOwner}
+          ownerPhoto={this.props.ownerPhoto}
+        />
+      </div>
+      <AddNewMessageFormRedux onSubmit={this.onSubmit} />
+    </div>
+  }
+}
+
+
+class Messages extends React.Component {
   constructor(props) {
     super(props);
     this.myRef = React.createRef();
   }
   scrollHandler() {
     this.myRef.current.scrollIntoView({ block: "end", inline: "nearest" })
+    console.log("scroll");
   }
+
   componentDidMount() {
     this.scrollHandler()
+    console.log("didMount");
   }
-  componentDidUpdate(prevProps) {
-    this.scrollHandler()
-    if (prevProps.interlocutor.userId != this.props.interlocutor.userId) {
-      this.props.loadMessages(this.props.interlocutor.userId, this.props.isOwner, 20)
-
+  componentDidUpdate(prevState) {
+    console.log("didMount");
+    if (prevState.interlocutor.userId != this.props.interlocutor.userId) {
+      this.scrollHandler()
     }
 
   }
-
   render() {
     let messageElem = [];
     if (this.props.message[this.props.interlocutor.userId] && this.props.message[this.props.interlocutor.userId].length > 0) {
@@ -91,20 +94,12 @@ class MessagesItems extends React.Component {
         <p>Для начала поздаровайтесь с {this.props.interlocutor.displayName}</p>
       </div>)
     }
-    return <div className={s.dialog}>
-      <Messages messageElem={messageElem} />
-      <div ref={this.myRef} ></div>
-    </div>
-  }
-}
-
-
-
-const Messages = (props) => {
-
-  return (<>{props.messageElem}</>);
+    return (<>
+      {messageElem}
+      <div ref={this.myRef} >x</div>
+    </>)
+  };
 };
-
 
 
 const maxLength50 = maxLengthCreator(50);
