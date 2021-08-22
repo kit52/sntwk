@@ -20,6 +20,7 @@ let mapStateToProps = (state) => {
 
 class DialogsContainer extends React.Component {
   componentDidMount() {
+    console.log(this.props);
     this.props.getAllUsers();
     this.props.getFollowers(this.props.isOwner)
   }
