@@ -22,7 +22,6 @@ export const setIsFetchingStatus = (bool) => {
   return { type: FETCHING, bool };
 };
 const dialogsReducer = (state = initialState, action) => {
-  debugger
   switch (action.type) {
 
     case ADD_MESSAGE:

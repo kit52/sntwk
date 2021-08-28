@@ -16,3 +16,16 @@
   text-transform: uppercase;
   color: #505160;
 }
+@media (max-width: 860px) {
+  .nav {
+    padding-left: 67px;
+  }
+}
+@media (max-width: 670px) {
+  .nav {
+    padding-left: 20px;
+  }
+  .item:first-child {
+    margin-right: 20px;
+  }
+}

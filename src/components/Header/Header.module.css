@@ -75,3 +75,9 @@
 .header_user:hover .header_user__popup {
   top: 52px;
 }
+@media (max-width: 860px) {
+  .nav {
+    padding-left: 0px;
+    justify-content: center;
+  }
+}

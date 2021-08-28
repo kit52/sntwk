@@ -9,11 +9,7 @@ import {
   loadMessages,
   setIsFetchingStatus
 } from "../../../redux/dialogs-reducer";
-import { useEffect } from "react";
-import { useRef } from "react";
 import Button from "../../btn/Button"
-import { useState } from "react";
-import Preloader from '../../../assets/icon/Loader.svg'
 
 let mapStateToProps = (state) => {
   return {
@@ -41,7 +37,6 @@ class MessageContainer extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     return <div>
       <div className={s.dialog}>
         <Messages
@@ -49,7 +44,7 @@ class MessageContainer extends React.Component {
           interlocutor={this.props.interlocutor}
           isOwner={this.props.isOwner}
           ownerPhoto={this.props.ownerPhoto}
-          isFetching={this.props.isFetching}
+          Fetching={this.props.Fetching}
         />
       </div>
       <AddNewMessageFormRedux onSubmit={this.onSubmit} />
@@ -65,18 +60,10 @@ class Messages extends React.PureComponent {
   }
   scrollHandler() {
     this.myRef.current.scrollIntoView({ block: "end", inline: "nearest" })
-    console.log("scroll");
   }
 
-  componentDidMount() {
-    // this.scrollHandler()
-    console.log("didMount");
-  }
   componentDidUpdate(prevState) {
-    console.log(prevState.Fetching);
-    console.log(this.props.Fetching);
     if (prevState.Fetching && !this.props.Fetching) {
-
       this.scrollHandler()
     }
 
@@ -103,7 +90,7 @@ class Messages extends React.PureComponent {
     }
     return (<>
       {messageElem}
-      <div ref={this.myRef} >x</div>
+      <div ref={this.myRef} ></div>
     </>)
   };
 };
@@ -111,9 +98,16 @@ class Messages extends React.PureComponent {
 
 const maxLength50 = maxLengthCreator(50);
 const AddNewMessageForm = (props) => {
+  const handleKeyDown = (e) => {
+
+    if (e.key == "Enter") {
+      e.preventDefault()
+      props.handleSubmit()
+    }
+  }
   return (
     <div className={s.message__form}>
-      <form onSubmit={props.handleSubmit}>
+      <form onSubmit={props.handleSubmit} onKeyDown={e => handleKeyDown(e)}>
         <Field
           component={Textarea}
           contenteditable="true"

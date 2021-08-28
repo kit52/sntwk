@@ -96,7 +96,12 @@ const ProfileData = ({ props, goToEditMode }) => {
         <MyPostsContainer />
       </div>
       {props.isOwner == props.userId ? (
-        <div >  <button className={s.profileInfo_editBtn} onClick={goToEditMode}><div className={s.profileinfo_icon}> </div>Редактировать</button></div>
+        <div >
+          <button className={s.profileInfo_editBtn} onClick={goToEditMode}>
+            <div className={s.profileinfo_icon}> </div>
+            <span className={s.editBtn__text_none}>Редактировать</span>
+          </button>
+        </div>
       ) : null}
     </div>
   );

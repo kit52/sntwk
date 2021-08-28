@@ -18,6 +18,7 @@ const Login = (props) => {
         </div>
         <Button text="Войти через Google" func={props.login2} class={s.login_btn} />
         <Button text="Тестовый вход" func={props.loginTest} class={s.login_btn + " " + s.login_test} />
+        <div>Пароль для тестового входа : <span>R1e2a3C4T5</span></div>
       </div>
     </div>
   );
